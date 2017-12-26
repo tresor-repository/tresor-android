@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Tresor</string>
+    <string name="title_activity_date_selector">DateSelectorActivity</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="header_layout" type="id"/>
+    <item name="header_budget_layout" type="id"/>
+    <item name="banner_budget_label" type="id"/>
+    <item name="banner_budget" type="id"/>
+    <item name="banner_saving_target_label" type="id"/>
+    <item name="banner_saving_target" type="id"/>
+    <item name="banner_spending_label" type="id"/>
+    <item name="banner_spending" type="id"/>
+</resources>

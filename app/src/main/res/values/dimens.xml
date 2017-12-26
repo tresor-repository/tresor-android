@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_header">22sp</dimen>
+    <dimen name="text_big">18sp</dimen>
+    <dimen name="text_title">16sp</dimen>
+    <dimen name="text_subtitle">14sp</dimen>
+    <dimen name="text_content">12sp</dimen>
+    <dimen name="padding_vvs">2dp</dimen>
+    <dimen name="padding_vs">6dp</dimen>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_big">28dp</dimen>
+    <dimen name="margin_vvs">2dp</dimen>
+    <dimen name="margin_vs">6dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="margin_medium">14dp</dimen>
+    <dimen name="margin_large">18dp</dimen>
+
+    <dimen name="edit_text_height">44dp</dimen>
+    <dimen name="adapter_height">44dp</dimen>
+    <dimen name="auto_complete_adapter_height">22dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

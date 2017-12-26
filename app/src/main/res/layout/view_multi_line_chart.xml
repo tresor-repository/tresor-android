@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/select_hastag_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:textColor="@color/mediumBlue"
+        android:textStyle="bold"
+        android:textSize="@dimen/text_title"
+        android:gravity="center_vertical"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:text="Select HashTag To Analyze"/>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/hashtag_multi_line_chart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

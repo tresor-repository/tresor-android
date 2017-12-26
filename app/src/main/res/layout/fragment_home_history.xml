@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/search_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#9fa8a3">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/padding_vs">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/padding_vs"
+                        android:paddingRight="@dimen/padding_vs">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@android:drawable/arrow_up_float"/>
+
+                            <com.aigestudio.wheelpicker.widgets.WheelDayPicker
+                                android:id="@+id/day_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:wheel_visible_item_count="3"
+                                app:wheel_item_text_size="@dimen/text_title"
+                                app:wheel_item_text_color="@android:color/black"
+                                app:wheel_selected_item_text_color="#FFFFFE"
+                                />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@android:drawable/arrow_down_float"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@android:drawable/arrow_up_float"/>
+
+                            <com.aigestudio.wheelpicker.WheelPicker
+                                android:id="@+id/month_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:wheel_visible_item_count="3"
+                                app:wheel_item_text_size="@dimen/text_title"
+                                app:wheel_item_text_color="@android:color/black"
+                                android:layout_marginLeft="@dimen/margin_vs"
+                                android:layout_marginStart="@dimen/margin_vs"
+                                android:layout_marginRight="@dimen/margin_vs"
+                                android:layout_marginEnd="@dimen/margin_vs"
+                                app:wheel_selected_item_text_color="#FFFFFE" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@android:drawable/arrow_down_float"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@android:drawable/arrow_up_float"/>
+
+                            <com.aigestudio.wheelpicker.widgets.WheelYearPicker
+                                android:id="@+id/year_picker"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:wheel_visible_item_count="3"
+                                app:wheel_item_text_size="@dimen/text_title"
+                                app:wheel_item_text_color="@android:color/black"
+                                app:wheel_selected_item_text_color="#FFFFFE"
+                                />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:src="@android:drawable/arrow_down_float"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="@dimen/margin_small"
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:src="@android:drawable/ic_menu_my_calendar"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textSize="@dimen/text_big"
+                                android:textColor="@android:color/white"
+                                android:textStyle="bold"
+                                android:text="Pick Date"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="bottom">
+
+                            <EditText
+                                android:id="@+id/search_bar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Search Hashtag"
+                                android:layout_marginLeft="@dimen/margin_small"
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:layout_marginRight="@dimen/margin_vs"
+                                android:layout_marginEnd="@dimen/margin_vs" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/search_hash_tag_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/padding_vs"
+                android:layout_marginLeft="@dimen/margin_vs"
+                android:layout_marginStart="@dimen/margin_vs"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filtered_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_vs"
+                android:paddingBottom="@dimen/margin_vs"/>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+</RelativeLayout>

@@ -1,0 +1,108 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorDark</item>
+        <item name="colorPrimaryDark">@color/colorDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="editTextStyle">@style/AppEditText</item>-->
+        <item name="buttonStyle">@style/AppButton</item>
+    </style>
+
+    <style name="SubLayoutItem">
+        <item name="android:padding">@dimen/padding_small</item>
+    </style>
+
+    <style name="AdapterLayout" parent="SubLayoutItem">
+        <item name="android:background">@drawable/plain_adapter_background</item>
+    </style>
+
+    <style name="SubLayoutItemBanner" parent="SubLayoutItem">
+        <item name="android:layout_marginTop">@dimen/margin_small</item>
+    </style>
+
+    <style name="BudgetBanner">
+        <item name="android:paddingTop">@dimen/padding_big</item>
+        <item name="android:background">@color/colorMain</item>
+
+    </style>
+
+    <style name="BudgetBannerItem">
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_small</item>
+    </style>
+
+    <style name="BudgetBannerSubItem">
+        <item name="android:background">@drawable/rounded_top_green</item>
+    </style>
+
+    <style name="BudgetBannerSubItemSelected">
+        <item name="android:background">@drawable/rounded_top_green_selected</item>
+    </style>
+
+    <style name="HeaderTextView">
+        <item name="android:textSize">@dimen/text_header</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TitleBig">
+        <item name="android:textSize">@dimen/text_big</item>
+        <item name="android:layout_marginLeft">@dimen/margin_small</item>
+        <item name="android:layout_marginRight">@dimen/margin_small</item>
+    </style>
+
+    <style name="TitleTextView">
+        <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
+    <style name="SubTitleTextView">
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:textColor">@color/textSecondary</item>
+    </style>
+
+    <style name="SubItemTextView">
+        <item name="android:textSize">@dimen/text_title</item>
+    </style>
+
+    <style name="MoneyTextView" parent="SubItemTextView">
+        <item name="android:textColor">@color/textMoney</item>
+    </style>
+
+    <style name="BudgetMoneyTextView" parent="MoneyTextView">
+        <item name="android:textSize">@dimen/text_header</item>
+    </style>
+
+    <style name="ExpenseTextView" parent="MoneyTextView">
+        <item name="android:textColor">@color/textMoneyExpense</item>
+    </style>
+
+    <style name="HashTag">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppEditText" parent="@android:style/Widget.EditText">
+        <item name="android:background">@drawable/rounded_edit_text_background</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:height">@dimen/edit_text_height</item>
+    </style>
+
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabBackground">@color/colorDark</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+    </style>
+
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

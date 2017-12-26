@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppButton" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/rounded_darkened_background</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+        <item name="android:padding">@dimen/padding_small</item>
+        <item name="android:height">@dimen/edit_text_height</item>
+    </style>
+</resources>

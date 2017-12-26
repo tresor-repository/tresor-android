@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/add_menu"
+        android:icon="@drawable/ic_save_money_512"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/search_menu"
+        android:icon="@drawable/ic_save_money_512"
+        android:title="Search"/>
+
+    <item
+        android:id="@+id/statistic_menu"
+        android:icon="@drawable/ic_save_money_512"
+        android:title="Statistic"/>
+
+    <!--<item
+        android:id="@+id/profile_menu"
+        android:icon="@drawable/ic_save_money_512"
+        android:title="Profile"/>-->
+</menu>

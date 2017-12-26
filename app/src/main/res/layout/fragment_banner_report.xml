@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/BudgetBanner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:id="@id/header_budget_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src="@mipmap/ic_launcher_round" />
+
+                <TextView
+                    style="@style/HeaderTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/padding_small"
+                    android:gravity="center"
+                    android:text="Christian Nababan" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--<LinearLayout
+            style="@style/SubLayoutItemBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/SubLayoutItemBanner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_money_stack_512"/>
+
+                    <TextView
+                        android:id="@id/banner_saving_target"
+                        style="@style/SubItemTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 300.000" />
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_spend_money_512"/>
+
+                    <TextView
+                        android:id="@id/banner_spending"
+                        style="@style/SubItemTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rp 25.000" />
+                </LinearLayout>
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_save_money_512"/>
+
+                    <TextView
+                        style="@style/SubItemTextView"
+                        android:id="@id/banner_saving_target"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Rp 50.000" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>-->
+
+    </LinearLayout>
+
+</LinearLayout>

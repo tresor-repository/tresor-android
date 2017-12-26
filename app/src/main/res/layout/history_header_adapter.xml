@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_vs"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_vs"
+    app:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_vs">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_vs"
+            android:layout_marginStart="@dimen/margin_vs">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_spend_money_512"
+                android:drawablePadding="@dimen/padding_vs"
+                android:drawableStart="@drawable/ic_spend_money_512"
+                android:gravity="center_vertical"
+                android:text="Total Spending"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/total_expense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="Rp 200.000"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

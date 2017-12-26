@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#388E3C</color>
+    <color name="colorPrimaryDark">#177c0f</color>
+    <color name="colorAccent">#dddfd4</color>
+
+    <color name="colorMain">#c9d8c5</color>
+    <color name="colorSecondary">#c5e1a5</color>
+    <color name="colorContrast">#fff9c4</color>
+    <color name="colorAlternative">#EBF2EA</color>
+    <color name="colorDark">#5C868D</color>
+    <color name="colorTeal">#009688</color>
+    <color name="textMain">#388E3C</color>
+    <color name="textSecondary">#455A64</color>
+    <color name="textMoney">#177c0f</color>
+    <color name="textMoneyExpense">#ff0000</color>
+    <color name="subItemSelected">#ff380b</color>
+    <color name="brightBlue">#62bcfa</color>
+    <color name="mediumBlue">#2196F3</color>
+    <color name="lightSand">#f2efe8</color>
+    <color name="greyishDark">#9fa8a3</color>
+
+    <color name="pie1">#388E3C</color>
+    <color name="pie2">#FFC107</color>
+    <color name="pie3">#ff380b</color>
+    <color name="pie4">#00B0FF</color>
+    <color name="pie5">#FFEA00</color>
+    <color name="pie6">#00E5FF</color>
+</resources>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="1000dp"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/colorDark"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_info"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Spending"
+        android:textSize="@dimen/text_big"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_small">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_subtitle"
+            android:text="Amount"/>
+
+        <LinearLayout
+            android:id="@+id/amount_layout"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/currency"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/text_title"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:text="Rp"/>
+
+
+            <faranjit.currency.edittext.CurrencyEditText
+                android:id="@+id/edit_text_insert_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="0"
+                android:inputType="numberDecimal"
+                android:textColor="@android:color/black"
+                android:maxLines="1"
+                android:layout_marginLeft="@dimen/margin_vs"
+                android:layout_marginStart="@dimen/margin_vs"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"/>
+
+            <!--<EditText
+                android:id="@+id/edit_text_insert_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:layout_marginLeft="@dimen/margin_vs"
+                android:layout_marginStart="@dimen/margin_vs"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/edit_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/margin_small"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_subtitle"
+                android:text="Description"/>
+
+            <EditText
+                android:id="@+id/edit_text_insert_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:maxLines="1"
+                android:inputType="text"
+                android:hint="Add unique #(hashtag) to easily track spending" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/icon_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/icon_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_cat_kitchen_dining_big"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_cat_clothing_big"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_cat_health_big"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_cat_automotive_big"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_cat_everything_else_big"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/step_by_step_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/skip_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_gravity="center"
+                android:textColor="@color/colorDark"
+                android:textStyle="bold"
+                android:text="Skip"/>
+
+            <TextView
+                android:id="@+id/next_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small"
+                android:layout_gravity="center"
+                android:textColor="@color/colorDark"
+                android:textStyle="bold"
+                android:text="Next"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/finish_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_gravity="right"
+            android:visibility="gone"
+            android:textColor="@color/colorDark"
+            android:textStyle="bold"
+            android:text="Okay"/>
+
+    </LinearLayout>
+
+</LinearLayout>
