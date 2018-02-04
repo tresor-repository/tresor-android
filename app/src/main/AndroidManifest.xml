@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tresor">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_round"
@@ -30,10 +32,6 @@
         <activity android:name=".home.activity.AddPaymentActivity" />
         <activity android:name=".home.activity.EditPaymentActivity" />
         <activity android:name=".statistic.totalspending.activity.TotalSpendingActivity" />
-        <activity
-            android:name=".common.activity.DateSelectorActivity"
-            android:label="@string/title_activity_date_selector"
-            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
