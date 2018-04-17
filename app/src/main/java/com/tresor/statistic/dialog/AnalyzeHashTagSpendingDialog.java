@@ -72,10 +72,10 @@ public class AnalyzeHashTagSpendingDialog extends DialogFragment {
     }
 
     private void initView(View view, List<String> listOfHashTag, List<String> analyzedHashTagList) {
-        RecyclerView hashTagList = (RecyclerView) view.findViewById(R.id.selected_hash_tag_list);
+        RecyclerView hashTagList = (RecyclerView) view.findViewById(R.id.hashTagList);
         DebouncingAutoCompleteTextView autoCompleteTextView = (DebouncingAutoCompleteTextView)
-                view.findViewById(R.id.add_new_hash_tag_auto_complete);
-        TextView okayButton = (TextView) view.findViewById(R.id.okay_button);
+                view.findViewById(R.id.autoCompleteTextView);
+        TextView okayButton = (TextView) view.findViewById(R.id.okayButton);
 
         AnalyzeHashTagAdapter analyzeHashTagAdapter = new AnalyzeHashTagAdapter(analyzedHashTagList);
         AutoCompleteSuggestionAdapter arrayAdapter = new AutoCompleteSuggestionAdapter(getActivity());

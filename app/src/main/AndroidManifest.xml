@@ -32,6 +32,9 @@
         <activity android:name=".home.activity.AddPaymentActivity" />
         <activity android:name=".home.activity.EditPaymentActivity" />
         <activity android:name=".statistic.totalspending.activity.TotalSpendingActivity" />
+        <activity android:name=".statistic.hashtagusage.activity.HashTagUsageActivity" />
+        <activity android:name=".statistic.spendingpiechart.HashtagPieChartActivity" />
+
     </application>
 
 </manifest>

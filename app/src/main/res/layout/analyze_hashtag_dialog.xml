@@ -11,7 +11,7 @@
         android:gravity="center_vertical">
 
         <com.tresor.common.widget.implementable.DebouncingAutoCompleteTextView
-            android:id="@+id/add_new_hash_tag_auto_complete"
+            android:id="@+id/autoCompleteTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Add New HashTag" />
@@ -19,13 +19,13 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/selected_hash_tag_list"
+        android:id="@+id/hashTagList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minWidth="300dp" />
 
     <TextView
-        android:id="@+id/okay_button"
+        android:id="@+id/okayButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"

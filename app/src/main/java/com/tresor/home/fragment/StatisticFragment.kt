@@ -1,6 +1,7 @@
 package com.tresor.home.fragment
 
 import android.app.Fragment
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,9 @@ import android.widget.ImageView
 import com.tresor.R
 import com.tresor.common.model.testmodel.TestModel
 import com.tresor.home.network.TestAuthenticatedService
+import com.tresor.statistic.HashTagPieChart
+import com.tresor.statistic.hashtagusage.activity.HashTagUsageActivity
+import com.tresor.statistic.totalspending.activity.TotalSpendingActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -34,30 +38,33 @@ class StatisticFragment : Fragment() {
         val spendingComparisonMenu = view.findViewById(R.id.spending_comparison_menu) as ImageView
         val pieChartMenu = view.findViewById(R.id.pie_chart_menu) as ImageView
 
-        totalSpendingMenu.setOnClickListener(onTotalSpendingMenuClicked())
-        spendingComparisonMenu.setOnClickListener(onComparisonChartClicked())
+        totalSpendingMenu.setOnClickListener { onTotalSpendingMenuClicked() }
+        spendingComparisonMenu.setOnClickListener { onComparisonChartClicked() }
+        pieChartMenu.setOnClickListener { onPieChartMenuClicked() }
 
         return view
     }
 
-    fun onTotalSpendingMenuClicked(): View.OnClickListener {
-        return View.OnClickListener {
-
-            val testService = TestAuthenticatedService()
-            compositeDisposable.add(testService.getTestList()
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
-                    .subscribe(this::handleResponse, this::handleError))
-
-        }
+    fun onTotalSpendingMenuClicked() {
+        startActivity(Intent(activity, TotalSpendingActivity::class.java))
     }
 
-    fun onComparisonChartClicked(): View.OnClickListener {
-        return View.OnClickListener { }
+    /*fun onTotalSpendingMenuClicked() {
+        val testService = TestAuthenticatedService()
+        compositeDisposable.add(testService.getTestList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(this::handleResponse, this::handleError))
+
+
+    }*/
+
+    fun onComparisonChartClicked() {
+        startActivity(Intent(activity, HashTagUsageActivity::class.java))
     }
 
-    fun onPieChartMenuClicked(): View.OnClickListener {
-        return View.OnClickListener { }
+    fun onPieChartMenuClicked() {
+        startActivity(Intent(activity, HashTagPieChart::class.java))
     }
 
     private fun handleResponse(androidList: List<TestModel>) {

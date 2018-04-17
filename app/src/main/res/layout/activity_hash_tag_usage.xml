@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/date_selector_header" />
+
+    <TextView
+        android:id="@+id/selectHastagButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:drawableLeft="@android:drawable/ic_menu_add"
+        android:gravity="center_vertical"
+        android:text="Select HashTag To Analyze"
+        android:textColor="@color/mediumBlue"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/hashtagMultiLineChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
