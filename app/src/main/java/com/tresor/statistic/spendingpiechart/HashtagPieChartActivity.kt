@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_hash_tag_pie_chart.*
 class HashtagPieChartActivity : DateSelectorActivity() {
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_hash_tag_usage
+        return R.layout.activity_hash_tag_pie_chart
     }
 
     override fun startDateEditText(): EditText {

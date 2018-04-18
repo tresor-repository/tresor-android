@@ -49,8 +49,7 @@ class HashTagUsageDialog : DialogFragment() {
 
         val autoCompleteList = ArrayList<String>()
 
-        val analyzedHashTagList = arguments
-                .getParcelableArrayList<HashtagListModel>(HASH_TAG_LIST_KEY)
+        val analyzedHashTagList = arguments.getStringArrayList(HASH_TAG_LIST_KEY)
 
         initView(autoCompleteList, analyzedHashTagList)
 
@@ -58,9 +57,9 @@ class HashTagUsageDialog : DialogFragment() {
     }
 
     private fun initView(listOfHashTag: MutableList<String>,
-                         analyzedHashTagList: List<HashtagListModel>) {
+                         analyzedHashTagList: List<String>) {
 
-        val analyzeHashTagAdapter = AnalyzeHashTagAdapter(extractHashTagString(analyzedHashTagList))
+        val analyzeHashTagAdapter = AnalyzeHashTagAdapter(analyzedHashTagList)
         val arrayAdapter = AutoCompleteSuggestionAdapter(activity)
 
         setupAtutoCompleteTextView(listOfHashTag, autoCompleteTextView, arrayAdapter)
@@ -71,15 +70,6 @@ class HashTagUsageDialog : DialogFragment() {
             onItemClickListener(analyzeHashTagAdapter, listOfHashTag, position)}
 
         okayButton.setOnClickListener(onOkayButtonClickedListener(analyzedHashTagList))
-    }
-
-    private fun extractHashTagString(analyzedHashTagList: List<HashtagListModel>) :
-            ArrayList<String> {
-        val hashTagList = arrayListOf<String>()
-        for (hashTagModel : HashtagListModel in analyzedHashTagList) {
-            hashTagList.add(hashTagModel.hashtag)
-        }
-        return hashTagList
     }
 
     private fun setupHashTagListProperties(hashTagList: RecyclerView,
@@ -131,7 +121,7 @@ class HashTagUsageDialog : DialogFragment() {
         adapter.notifyDataSetChanged()
     }
 
-    private fun onOkayButtonClickedListener(listHashTag: List<HashtagListModel>): View.OnClickListener {
+    private fun onOkayButtonClickedListener(listHashTag: List<String>): View.OnClickListener {
         return View.OnClickListener {
             listener!!.onFinishChoosingSpendingDialog(listHashTag)
             dismiss()
@@ -144,17 +134,17 @@ class HashTagUsageDialog : DialogFragment() {
     }
 
     interface HashTagUsageDialogListener {
-        fun onFinishChoosingSpendingDialog(hashTagList: List<HashtagListModel>)
+        fun onFinishChoosingSpendingDialog(hashTagList: List<String>)
     }
 
     companion object {
 
         private val HASH_TAG_LIST_KEY = "hash_tag_list_key"
 
-        fun createDialog(hashTagList: ArrayList<HashtagListModel>): HashTagUsageDialog {
+        fun createDialog(hashTagList: ArrayList<String>): HashTagUsageDialog {
             val dialog = HashTagUsageDialog()
             val bundle = Bundle()
-            bundle.putParcelableArrayList(HASH_TAG_LIST_KEY, hashTagList)
+            bundle.putStringArrayList(HASH_TAG_LIST_KEY, hashTagList)
             dialog.arguments = bundle
             return dialog
         }

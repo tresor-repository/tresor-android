@@ -10,13 +10,10 @@ import android.widget.ImageView
 
 import com.tresor.R
 import com.tresor.common.model.testmodel.TestModel
-import com.tresor.home.network.TestAuthenticatedService
-import com.tresor.statistic.HashTagPieChart
-import com.tresor.statistic.hashtagusage.activity.HashTagUsageActivity
+import com.tresor.statistic.hashtagusage.activity.HashTagUsageComparisonActivity
+import com.tresor.statistic.spendingpiechart.HashtagPieChartActivity
 import com.tresor.statistic.totalspending.activity.TotalSpendingActivity
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by kris on 11/14/17. Tokopedia
@@ -60,11 +57,11 @@ class StatisticFragment : Fragment() {
     }*/
 
     fun onComparisonChartClicked() {
-        startActivity(Intent(activity, HashTagUsageActivity::class.java))
+        startActivity(Intent(activity, HashTagUsageComparisonActivity::class.java))
     }
 
     fun onPieChartMenuClicked() {
-        startActivity(Intent(activity, HashTagPieChart::class.java))
+        startActivity(Intent(activity, HashtagPieChartActivity::class.java))
     }
 
     private fun handleResponse(androidList: List<TestModel>) {

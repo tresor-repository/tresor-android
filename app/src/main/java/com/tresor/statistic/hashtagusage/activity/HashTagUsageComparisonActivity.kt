@@ -21,11 +21,11 @@ import java.util.ArrayList
  * Created by kris on 3/31/18. Tokopedia
  */
 
-class HashTagUsageActivity
+class HashTagUsageComparisonActivity
     : DateSelectorActivity(), HashTagUsageDialog.HashTagUsageDialogListener {
 
-    override fun onFinishChoosingSpendingDialog(hashTagList: List<HashtagListModel>) {
-        setChartData(hashTagList)
+    override fun onFinishChoosingSpendingDialog(hashTagList: List<String>) {
+        //TODO
     }
 
     override fun getLayoutId(): Int {
@@ -63,7 +63,7 @@ class HashTagUsageActivity
         }
         ft.addToBackStack(null)
         val analyzeDialog = HashTagUsageDialog
-                .createDialog(hashtagList as ArrayList<HashtagListModel>)
+                .createDialog(extractHashTagString(hashtagList))
         analyzeDialog.show(ft, "dialog")
     }
 
@@ -71,7 +71,7 @@ class HashTagUsageActivity
             : List<ILineDataSet> {
         val lineDataSets = ArrayList<ILineDataSet>()
         for (i in hashTags.indices) {
-            val lineDataSet = LineDataSet(getLineAmountHashTag(hashTags),
+            val lineDataSet = LineDataSet(getLineAmountHashTag(hashTags[i].amountUnformatted),
                     hashTags[i].hashtag)
             setDatasetMode(lineDataSet, setColor(i))
             lineDataSets.add(lineDataSet)
@@ -79,18 +79,12 @@ class HashTagUsageActivity
         return lineDataSets
     }
 
-    private fun getLineAmountHashTag(hashtags: List<HashtagListModel>) : List<Entry> {
+    private fun getLineAmountHashTag(amountList: List<Double>) : List<Entry> {
         val lineEntries : ArrayList<Entry> = arrayListOf()
-        for (i in hashtags.indices) {
-            if (i > 0) lineEntries.add(
-                    Entry(
-                            i.toFloat(),
-                            hashtags[i].amountUnformatted.toFloat()
-                                    + hashtags[i - 1].amountUnformatted.toFloat())
-            ) else lineEntries.add(Entry(
-                    i.toFloat(),
-                    hashtags[i].amountUnformatted.toFloat())
-            )
+        var totalAmount = 0f
+        for (i in amountList.indices) {
+            totalAmount += amountList[i].toFloat()
+            lineEntries.add(Entry(i.toFloat(), totalAmount))
         }
         return lineEntries
     }
@@ -136,16 +130,45 @@ class HashTagUsageActivity
         dummyHashTag.add("Makan")
         dummyHashTag.add("Minum")
         dummyHashTag.add("Boker")
-        while (index < 2) {
+        while (index < 3) {
             spendingModelList.add(HashtagListModel(
                     "1234",
                     dummyHashTag[index],
-                    Math.random() * 10000,
-                    "20000"
+                    dummyValue(),
+                    dummyFormattedValue()
             ))
             index++
         }
         return spendingModelList
+    }
+
+    private fun dummyValue(): List<Double> {
+        var index = 0
+        val list : MutableList<Double> = arrayListOf()
+        while (index < 13) {
+            list.add(Math.random() * 1000)
+            index++
+        }
+        return list
+    }
+
+    private fun dummyFormattedValue(): List<String> {
+        var index = 0
+        val list : MutableList<String> = arrayListOf()
+        while (index < 13) {
+            list.add("20000")
+            index++
+        }
+        return list
+    }
+
+    private fun extractHashTagString(analyzedHashTagList: List<HashtagListModel>) :
+            ArrayList<String> {
+        val hashTagList = arrayListOf<String>()
+        for (hashTagModel : HashtagListModel in analyzedHashTagList) {
+            hashTagList.add(hashTagModel.hashtag)
+        }
+        return hashTagList
     }
 
 }
