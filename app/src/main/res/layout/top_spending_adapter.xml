@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_weight="1"
+        android:background="@drawable/square_with_border">
+
+        <TextView
+            android:id="@+id/spendingDate"
+            style="@style/AdapterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="23 December 2018" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_weight="1"
+        android:background="@drawable/square_with_border"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/amountSpent"
+            style="@style/AdapterText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:textColor="@color/colorDark"
+            tools:text="100000" />
+
+    </LinearLayout>
+
+</LinearLayout>

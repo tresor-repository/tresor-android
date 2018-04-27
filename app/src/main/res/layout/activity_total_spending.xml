@@ -13,7 +13,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="350dp">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/hashtagLineChart"
@@ -42,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_title"
-
                 android:text="Detail"
                 android:textStyle="bold"
                 android:textColor="@color/mediumBlue" />
@@ -50,5 +49,15 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/listSortingSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/adapter_height"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topSpendingRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

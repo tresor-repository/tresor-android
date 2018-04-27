@@ -6,6 +6,8 @@ package com.tresor.common.model.viewmodel
 data class DailySpendingModel(val id: String, val date: String, val listOfSpending: List<SpendingModel>)
 {
 
-    var totalAmount : Float = 0f
+    var totalAmount = 0f
+
+    var summarizedTotalAmount: Float = 0f
 
 }

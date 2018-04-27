@@ -18,6 +18,12 @@
         <item name="android:background">@drawable/plain_adapter_background</item>
     </style>
 
+    <style name="AdapterText">
+        <item name="android:padding">6dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="SubLayoutItemBanner" parent="SubLayoutItem">
         <item name="android:layout_marginTop">@dimen/margin_small</item>
     </style>
