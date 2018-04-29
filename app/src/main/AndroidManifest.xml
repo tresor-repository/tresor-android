@@ -32,8 +32,10 @@
         <activity android:name=".home.activity.AddPaymentActivity" />
         <activity android:name=".home.activity.EditPaymentActivity" />
         <activity android:name=".statistic.totalspending.activity.TotalSpendingActivity" />
-        <activity android:name=".statistic.hashtagusage.activity.HashTagUsageComparisonActivity" />
-        <activity android:name=".statistic.spendingpiechart.HashtagPieChartActivity" />
+        <activity android:name=".statistic.hashtagusage.activity.HashTagUsageComparisonActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".statistic.spendingpiechart.HashtagPieChartActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
     </application>
 

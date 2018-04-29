@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/padding_small">
+
+    <LinearLayout
+        android:id="@+id/insertHashTagField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <com.tresor.common.widget.implementable.DebouncingAutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add New HashTag" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hashTagList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/insertHashTagField"
+        android:minWidth="300dp" />
+
+    <LinearLayout
+        style="@style/TresorButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/okayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Okay"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_title"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</RelativeLayout>

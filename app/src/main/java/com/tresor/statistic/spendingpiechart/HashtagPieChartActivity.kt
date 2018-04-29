@@ -9,13 +9,19 @@ import com.github.mikephil.charting.data.PieEntry
 import com.tresor.R
 import com.tresor.common.activity.DateSelectorActivity
 import com.tresor.common.model.viewmodel.HashtagUsageModel
+import com.tresor.statistic.customview.HashTagUsagePanel
 import kotlinx.android.synthetic.main.date_selector_header.*
 import kotlinx.android.synthetic.main.activity_hash_tag_pie_chart.*
+
 /**
  * Created by kris on 4/16/18. Tokopedia
  */
 
-class HashtagPieChartActivity : DateSelectorActivity() {
+class HashtagPieChartActivity : DateSelectorActivity(), HashTagUsagePanel.HashTagUsagePanelListener {
+
+    override fun onFinishChoosingSpendingDialog(hashTagList: List<String>) {
+
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_hash_tag_pie_chart
@@ -36,6 +42,7 @@ class HashtagPieChartActivity : DateSelectorActivity() {
     }
 
     private fun setChartData(hashTagUsages : List<HashtagUsageModel>) {
+        hashTagPanel.setData(extractHashTagString(hashTagUsages), this)
         val dataSet = PieDataSet(getPercentageAmount(hashTagUsages), "Percentage of Hashtags")
         dataSet.colors = (colorList())
         hashtagPieChart.apply {
@@ -81,6 +88,13 @@ class HashtagPieChartActivity : DateSelectorActivity() {
         hashtagUsageModel.add(HashtagUsageModel("#bolang", 18f))
         hashtagUsageModel.add(HashtagUsageModel("#pijet", 18f))
         return hashtagUsageModel
+    }
+
+    private fun extractHashTagString(analyzedHashTagList: List<HashtagUsageModel>) :
+            java.util.ArrayList<String> {
+        val hashTagList = arrayListOf<String>()
+        analyzedHashTagList.mapTo(hashTagList) { it.name }
+        return hashTagList
     }
 
 }

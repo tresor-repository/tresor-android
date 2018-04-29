@@ -12,7 +12,7 @@ import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.tresor.R
 import com.tresor.common.activity.DateSelectorActivity
 import com.tresor.common.model.viewmodel.HashtagListModel
-import com.tresor.statistic.hashtagusage.fragment.HashTagUsageDialog
+import com.tresor.statistic.customview.HashTagUsagePanel
 import kotlinx.android.synthetic.main.activity_hash_tag_usage.*
 import kotlinx.android.synthetic.main.date_selector_header.*
 import java.util.ArrayList
@@ -22,7 +22,7 @@ import java.util.ArrayList
  */
 
 class HashTagUsageComparisonActivity
-    : DateSelectorActivity(), HashTagUsageDialog.HashTagUsageDialogListener {
+    : DateSelectorActivity(), HashTagUsagePanel.HashTagUsagePanelListener {
 
     override fun onFinishChoosingSpendingDialog(hashTagList: List<String>) {
         //TODO
@@ -46,25 +46,12 @@ class HashTagUsageComparisonActivity
     }
 
     private fun setChartData(spendingList: List<HashtagListModel>) {
-        selectHastagButton.setOnClickListener{
-            onHashTagButtonClickedListener(spendingList)
-        }
+        hashTagPanel.setData(extractHashTagString(spendingList), this)
         val lineData = LineData(multipleHashtagLine(spendingList))
         lineData.setDrawValues(false)
         hashtagMultiLineChart.data = lineData
+        hashtagMultiLineChart.xAxis.setDrawLabels(false)
         hashtagMultiLineChart.animateX(1000)
-    }
-
-    private fun onHashTagButtonClickedListener(hashtagList: List<HashtagListModel>) {
-        val ft = fragmentManager.beginTransaction()
-        val prev = fragmentManager.findFragmentByTag("dialog")
-        if (prev != null) {
-            ft.remove(prev)
-        }
-        ft.addToBackStack(null)
-        val analyzeDialog = HashTagUsageDialog
-                .createDialog(extractHashTagString(hashtagList))
-        analyzeDialog.show(ft, "dialog")
     }
 
     private fun multipleHashtagLine(hashTags: List<HashtagListModel>)
@@ -165,9 +152,7 @@ class HashTagUsageComparisonActivity
     private fun extractHashTagString(analyzedHashTagList: List<HashtagListModel>) :
             ArrayList<String> {
         val hashTagList = arrayListOf<String>()
-        for (hashTagModel : HashtagListModel in analyzedHashTagList) {
-            hashTagList.add(hashTagModel.hashtag)
-        }
+        analyzedHashTagList.mapTo(hashTagList) { it.hashtag }
         return hashTagList
     }
 

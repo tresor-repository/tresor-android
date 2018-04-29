@@ -56,6 +56,42 @@ class TotalSpendingActivity : DateSelectorActivity() {
         setSpendingTable(dailySpendingsWithCalculatedSum)
     }
 
+    private fun setGraph(dailySpendingsWithCalculatedSum: MutableList<DailySpendingModel>) {
+        val lineDataSet = LineDataSet(setLineYAxis(dailySpendingsWithCalculatedSum),
+                "Amount of Money Spent")
+        configureLineDataSet(lineDataSet, resources.getColor(R.color.pie4), true)
+        val lineData = LineData(lineDataSet).apply {
+            setValueTextSize(10f)
+            setDrawValues(false)
+        }
+        hashtagLineChart.data = lineData
+        hashtagLineChart.xAxis.setDrawLabels(false)
+        hashtagLineChart.axisRight.setDrawLabels(false)
+        setLastIndexValue(dailySpendingsWithCalculatedSum)
+    }
+
+    private fun setLastIndexValue(dailySpendingsWithCalculatedSum: MutableList<DailySpendingModel>) {
+        val latestIndexData = dailySpendingsWithCalculatedSum.last()
+        highlightedSpending.setText(latestIndexData.date + ":" + latestIndexData.summarizedTotalAmount)
+        hashtagLineChart.setOnChartValueSelectedListener(ChartValueListener(
+                dailySpendingsWithCalculatedSum,
+                highlightedSpending,
+                goToDetailButton)
+        )
+        goToDetailButton.setOnClickListener { latestIndexData.id }
+        totalSpendingText.text = latestIndexData.summarizedTotalAmount.toString()
+        hashtagLineChart.description.isEnabled = false
+    }
+
+
+    private fun setLineYAxis(dailySpendings: MutableList<DailySpendingModel>): MutableList<Entry> {
+        val entries: MutableList<Entry> = mutableListOf()
+        dailySpendings.mapIndexedTo(entries) { index, dailySpending ->
+            Entry(index.toFloat(), dailySpending.summarizedTotalAmount)
+        }
+        return entries
+    }
+
     private fun setSpendingTable(dailySpendingsWithCalculatedSum: MutableList<DailySpendingModel>) {
         topSpendingRecyclerView.layoutManager = LinearLayoutManager(this)
         val topSpendingAdapter = TopSpendingAdapter(dailySpendingsWithCalculatedSum)
@@ -74,43 +110,6 @@ class TotalSpendingActivity : DateSelectorActivity() {
                 }
             }
         }
-    }
-
-    private fun setGraph(dailySpendingsWithCalculatedSum: MutableList<DailySpendingModel>) {
-        val lineDataSet = LineDataSet(setLineYAxis(dailySpendingsWithCalculatedSum),
-                "Amount of Money Spent")
-        configureLineDataSet(lineDataSet, resources.getColor(R.color.pie4), true)
-        val lineData = LineData(lineDataSet).apply {
-            setValueTextSize(10f)
-            setDrawValues(false)
-        }
-
-        hashtagLineChart.xAxis.setValueFormatter(
-                { value, axis -> dateValueFormatter(dailySpendingsWithCalculatedSum, value) })
-        hashtagLineChart.data = lineData
-
-        setLastIndexValue(dailySpendingsWithCalculatedSum)
-    }
-
-    private fun setLastIndexValue(dailySpendingsWithCalculatedSum: MutableList<DailySpendingModel>) {
-        val latestIndexData = dailySpendingsWithCalculatedSum.last()
-        highlightedSpending.setText(latestIndexData.date + ":" + latestIndexData.summarizedTotalAmount)
-        hashtagLineChart.setOnChartValueSelectedListener(ChartValueListener(
-                dailySpendingsWithCalculatedSum,
-                highlightedSpending,
-                goToDetailButton)
-        )
-        goToDetailButton.setOnClickListener { latestIndexData.id }
-        hashtagLineChart.description.text = "Total Spending: " + latestIndexData.summarizedTotalAmount
-    }
-
-
-    private fun setLineYAxis(dailySpendings: MutableList<DailySpendingModel>): MutableList<Entry> {
-        val entries: MutableList<Entry> = mutableListOf()
-        dailySpendings.mapIndexedTo(entries) { index, dailySpending ->
-            Entry(index.toFloat(), dailySpending.summarizedTotalAmount)
-        }
-        return entries
     }
 
     private fun configureLineDataSet(dataSet: LineDataSet, color: Int, drawFilled: Boolean)
@@ -150,10 +149,6 @@ class TotalSpendingActivity : DateSelectorActivity() {
 
     private fun calculateDailyAmount(spendings: List<SpendingModel>): Float {
         return spendings.map { it.amountUnformatted.toFloat() }.sum()
-    }
-
-    private fun dateValueFormatter(spendingModels: List<DailySpendingModel>, value: Float): String {
-        return spendingModels.get(Math.round(value)).date
     }
 
     private fun dummyTotalSpendingModel(): List<SpendingModel> {

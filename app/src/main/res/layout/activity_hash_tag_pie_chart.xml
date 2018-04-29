@@ -9,7 +9,12 @@
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/hashtagPieChart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="350dp"
         android:layout_marginBottom="@dimen/margin_medium"/>
+
+    <com.tresor.statistic.customview.HashTagUsagePanel
+        android:id="@+id/hashTagPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

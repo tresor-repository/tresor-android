@@ -6,58 +6,96 @@
     android:orientation="vertical"
     tools:context="com.tresor.statistic.totalspending.activity.TotalSpendingActivity">
 
-    <include
-        layout="@layout/date_selector_header" />
+    <include layout="@layout/date_selector_header" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="350dp">
+        android:layout_height="350dp"
+        android:orientation="vertical">
 
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/hashtagLineChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_margin="@dimen/margin_large"
             android:background="@drawable/colored_rounded_background"
-            android:padding="@dimen/padding_small"
             android:orientation="vertical"
-            android:layout_alignParentTop="true">
+            android:padding="@dimen/padding_small">
 
             <TextView
                 android:id="@+id/highlightedSpending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_title"
                 android:textColor="@android:color/black"
+                android:textSize="@dimen/text_title"
                 tools:text="10 Dec : 50000" />
 
             <TextView
                 android:id="@+id/goToDetailButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_title"
                 android:text="Detail"
-                android:textStyle="bold"
-                android:textColor="@color/mediumBlue" />
+                android:textColor="@color/mediumBlue"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_vs"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small">
+
+            <TextView
+                style="@style/AdapterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Spending:" />
+
+            <TextView
+                android:id="@+id/totalSpendingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_vs"
+                android:layout_marginRight="@dimen/margin_vs"
+                android:textColor="@color/colorDark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </RelativeLayout>
 
-    <Spinner
-        android:id="@+id/listSortingSpinner"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/adapter_height"/>
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:background="@drawable/square_with_border">
+
+        <Spinner
+            android:id="@+id/listSortingSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/adapter_height" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/topSpendingRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

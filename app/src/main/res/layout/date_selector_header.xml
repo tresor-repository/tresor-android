@@ -16,8 +16,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/padding_small"
                 android:layout_marginEnd="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -30,6 +30,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:focusable="false"
+                        android:gravity="center"
                         android:hint="Start Date"
                         android:inputType="none"
                         android:minWidth="120dp"
@@ -52,6 +53,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:focusable="false"
+                        android:gravity="center"
                         android:hint="End Date"
                         android:inputType="none"
                         android:minWidth="120dp"

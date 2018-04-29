@@ -59,7 +59,7 @@ public class AnalyzeHashTagSpendingDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.analyze_hashtag_dialog, container);
+        View view = inflater.inflate(R.layout.analyze_hashtag_panel, container);
         compositeDisposable = new CompositeDisposable();
 
         List<String> autoCompleteList = new ArrayList<>();

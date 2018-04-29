@@ -12,7 +12,6 @@ import android.view.ViewGroup
 
 import com.tresor.R
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
-import com.tresor.common.model.viewmodel.HashtagListModel
 import com.tresor.common.widget.implementable.DebouncingAutoCompleteTextView
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.statistic.adapter.AnalyzeHashTagAdapter
@@ -20,7 +19,7 @@ import com.tresor.statistic.adapter.AnalyzeHashTagAdapter
 import java.util.ArrayList
 
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.analyze_hashtag_dialog.*
+import kotlinx.android.synthetic.main.analyze_hashtag_panel.*
 
 /**
  * Created by kris on 4/16/18. Tokopedia
@@ -44,7 +43,7 @@ class HashTagUsageDialog : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?, savedInstanceState: Bundle): View? {
-        val view = inflater.inflate(R.layout.analyze_hashtag_dialog, container)
+        val view = inflater.inflate(R.layout.analyze_hashtag_panel, container)
         compositeDisposable = CompositeDisposable()
 
         val autoCompleteList = ArrayList<String>()
