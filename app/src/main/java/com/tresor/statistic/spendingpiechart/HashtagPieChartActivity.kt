@@ -64,9 +64,9 @@ class HashtagPieChartActivity : DateSelectorActivity(), HashTagUsagePanel.HashTa
     }
 
     private fun getTotalAmount(hashTagUsages : List<HashtagUsageModel>) : Float {
-        var amount = 0f
-        for (hashtagUsage in hashTagUsages) amount += hashtagUsage.timesMentioned
-        return amount
+        return hashTagUsages
+                .map { it.timesMentioned }
+                .sum()
     }
 
     private fun colorList() : List<Int> {
