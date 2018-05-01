@@ -13,6 +13,7 @@ import com.tresor.R
 import com.tresor.common.activity.DateSelectorActivity
 import com.tresor.common.model.viewmodel.HashtagListModel
 import com.tresor.statistic.customview.HashTagUsagePanel
+import com.tresor.statistic.hashtagHistoryIntent
 import kotlinx.android.synthetic.main.activity_hash_tag_usage.*
 import kotlinx.android.synthetic.main.date_selector_header.*
 import java.util.ArrayList
@@ -23,9 +24,17 @@ import java.util.ArrayList
 
 class HashTagUsageComparisonActivity
     : DateSelectorActivity(), HashTagUsagePanel.HashTagUsagePanelListener {
+    override fun onSelectHashtag(hashTag: String) {
+        startActivity(hashtagHistoryIntent(
+                hashTag,
+                startDateEditText().text.toString(),
+                endDateEditText().text.toString())
+        )
+    }
 
     override fun onFinishChoosingSpendingDialog(hashTagList: List<String>) {
         //TODO
+
     }
 
     override fun getLayoutId(): Int {
@@ -46,7 +55,8 @@ class HashTagUsageComparisonActivity
     }
 
     private fun setChartData(spendingList: List<HashtagListModel>) {
-        hashTagPanel.setData(extractHashTagString(spendingList), this)
+        hashTagPanel.setData(extractHashTagString(spendingList),
+                this)
         val lineData = LineData(multipleHashtagLine(spendingList))
         lineData.setDrawValues(false)
         hashtagMultiLineChart.data = lineData

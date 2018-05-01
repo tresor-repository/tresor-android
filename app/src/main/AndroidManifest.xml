@@ -36,6 +36,7 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".statistic.spendingpiechart.HashtagPieChartActivity"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".statistic.HashTagHistoryActivity"/>
 
     </application>
 

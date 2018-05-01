@@ -10,6 +10,7 @@ import com.tresor.R
 import com.tresor.common.activity.DateSelectorActivity
 import com.tresor.common.model.viewmodel.HashtagUsageModel
 import com.tresor.statistic.customview.HashTagUsagePanel
+import com.tresor.statistic.hashtagHistoryIntent
 import kotlinx.android.synthetic.main.date_selector_header.*
 import kotlinx.android.synthetic.main.activity_hash_tag_pie_chart.*
 
@@ -19,7 +20,16 @@ import kotlinx.android.synthetic.main.activity_hash_tag_pie_chart.*
 
 class HashtagPieChartActivity : DateSelectorActivity(), HashTagUsagePanel.HashTagUsagePanelListener {
 
+    override fun onSelectHashtag(hashTag: String) {
+        startActivity(hashtagHistoryIntent(
+                hashTag,
+                startDateEditText().text.toString(),
+                endDateEditText().text.toString())
+        )
+    }
+
     override fun onFinishChoosingSpendingDialog(hashTagList: List<String>) {
+        //TODO
 
     }
 
@@ -41,8 +51,9 @@ class HashtagPieChartActivity : DateSelectorActivity(), HashTagUsagePanel.HashTa
         setChartData(dummyHashTagStatistic())
     }
 
-    private fun setChartData(hashTagUsages : List<HashtagUsageModel>) {
-        hashTagPanel.setData(extractHashTagString(hashTagUsages), this)
+    private fun setChartData(hashTagUsages : MutableList<HashtagUsageModel>) {
+        hashTagPanel.setData(extractHashTagString(hashTagUsages),
+                this)
         val dataSet = PieDataSet(getPercentageAmount(hashTagUsages), "Percentage of Hashtags")
         dataSet.colors = (colorList())
         hashtagPieChart.apply {
@@ -80,7 +91,7 @@ class HashtagPieChartActivity : DateSelectorActivity(), HashTagUsagePanel.HashTa
         return listColor
     }
 
-    private fun dummyHashTagStatistic() : List<HashtagUsageModel> {
+    private fun dummyHashTagStatistic() : MutableList<HashtagUsageModel> {
         val hashtagUsageModel : ArrayList<HashtagUsageModel> = arrayListOf()
         hashtagUsageModel.add(HashtagUsageModel("#makan", 22f))
         hashtagUsageModel.add(HashtagUsageModel("#malem", 34f))
@@ -90,9 +101,9 @@ class HashtagPieChartActivity : DateSelectorActivity(), HashTagUsagePanel.HashTa
         return hashtagUsageModel
     }
 
-    private fun extractHashTagString(analyzedHashTagList: List<HashtagUsageModel>) :
-            java.util.ArrayList<String> {
-        val hashTagList = arrayListOf<String>()
+    private fun extractHashTagString(analyzedHashTagList: MutableList<HashtagUsageModel>) :
+            MutableList<String> {
+        val hashTagList = mutableListOf<String>()
         analyzedHashTagList.mapTo(hashTagList) { it.name }
         return hashTagList
     }

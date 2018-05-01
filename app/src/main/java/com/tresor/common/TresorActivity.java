@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import com.tresor.R;
 import com.tresor.home.fragment.ListFinancialHistoryFragment;
 import com.tresor.home.fragment.SearchFragment;
-import com.tresor.home.fragment.ChartFragment;
 import com.tresor.home.fragment.StatisticFragment;
 
 /**

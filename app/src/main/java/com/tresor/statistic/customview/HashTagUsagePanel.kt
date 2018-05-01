@@ -37,10 +37,10 @@ class HashTagUsagePanel : RelativeLayout {
         inflater.inflate(R.layout.analyze_hashtag_panel, this, true)
     }
 
-    fun setData(analyzedHashTagList: List<String>,
+    fun setData(analyzedHashTagList: MutableList<String>,
                 listener: HashTagUsagePanelListener) {
 
-        val analyzeHashTagAdapter = AnalyzeHashTagAdapter(analyzedHashTagList)
+        val analyzeHashTagAdapter = AnalyzeHashTagAdapter(analyzedHashTagList, listener)
         val arrayAdapter = AutoCompleteSuggestionAdapter(context)
         val listOfHashTag = mutableListOf<String>()
 
@@ -126,7 +126,10 @@ class HashTagUsagePanel : RelativeLayout {
     }
 
     interface HashTagUsagePanelListener {
+
         fun onFinishChoosingSpendingDialog(hashTagList: List<String>)
+
+        fun onSelectHashtag(hashTag: String)
     }
 
 }

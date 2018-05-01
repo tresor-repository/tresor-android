@@ -36,7 +36,7 @@
             android:id="@+id/okayButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Okay"
+            android:text="Refresh Graph"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_title"
             android:textStyle="bold" />
