@@ -171,7 +171,8 @@ class TotalSpendingActivity : DateSelectorActivity() {
                     "#Makan#Ancur#Blablaba",
                     "12 December 2012",
                     1,
-                    dummyHashTag
+                    dummyHashTag,
+                    ""
             ))
             index++
         }

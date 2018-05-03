@@ -1,6 +1,6 @@
 package com.tresor.home.inteface;
 
-import com.tresor.home.model.FinancialHistoryModel;
+import com.tresor.common.model.viewmodel.SpendingModel;
 
 /**
  * Created by kris on 7/10/17. Tokopedia
@@ -8,6 +8,6 @@ import com.tresor.home.model.FinancialHistoryModel;
 
 public interface NewDataAddedListener {
 
-    void onDataAdded(FinancialHistoryModel newData);
+    void onDataAdded(SpendingModel newData);
 
 }

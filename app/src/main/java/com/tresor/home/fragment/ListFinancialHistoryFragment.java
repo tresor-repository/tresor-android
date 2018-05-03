@@ -17,14 +17,19 @@ import com.tresor.R;
 import com.tresor.common.activity.addpayment.PaymentTemplateInterface;
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter;
 import com.tresor.common.adapter.FilterAdapter;
+import com.tresor.common.model.viewmodel.SpendingModel;
 import com.tresor.common.widget.implementable.FilterAutoCompleteTextView;
 import com.tresor.common.widget.template.SmartAutoCompleteTextView;
 import com.tresor.home.activity.AddPaymentActivity;
 import com.tresor.home.activity.EditPaymentActivity;
 import com.tresor.home.adapter.TodayPageAdapter;
+import com.tresor.home.adapter.TodayPageAdapterKotlin;
 import com.tresor.home.inteface.HomeActivityListener;
 import com.tresor.home.model.FinancialHistoryModel;
-import com.tresor.home.model.SpendingDataModel;
+import com.tresor.home.model.SpendingModelWrapper;
+import com.tresor.home.viewholder.TodayPageAdapterViewHolder;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +44,12 @@ import static com.tresor.home.inteface.HomeActivityListener.EXTRA_ADD_DATA_RESUL
  */
 
 public class ListFinancialHistoryFragment extends Fragment
-        implements TodayPageAdapter.TodayAdapterListener, FilterAdapter.onFilterItemClicked {
+        implements TodayPageAdapter.TodayAdapterListener,
+        TodayPageAdapterViewHolder.TodaySpendingAdapterListener,
+        FilterAdapter.onFilterItemClicked {
 
-    private TodayPageAdapter financialHistoryListAdapter;
-    private List<FinancialHistoryModel> financialList;
+    private TodayPageAdapterKotlin financialHistoryListAdapter;
+    private List<SpendingModel> financialList;
 
     public static ListFinancialHistoryFragment createFragment() {
         return new ListFinancialHistoryFragment();
@@ -68,14 +75,12 @@ public class ListFinancialHistoryFragment extends Fragment
     }
 
     private void setSpendingAdapter(RecyclerView financialHistoryList) {
-        financialList = financialHistoryModelList();
-        financialHistoryListAdapter = new TodayPageAdapter(
-                spendingDataModel().getFinancialHistoryModelList(),
-                this);
+        financialList = spendingModelList();
+        financialHistoryListAdapter = new TodayPageAdapterKotlin(financialList, this);
         financialHistoryList.setAdapter(financialHistoryListAdapter);
     }
 
-    private void onHomeButtonFabClicked() {
+    private void openAddTodaySpending() {
         Intent intent = new Intent(getActivity(), AddPaymentActivity.class);
         startActivityForResult(intent, ADD_NEW_PAYMENT_REQUEST_CODE);
     }
@@ -115,9 +120,8 @@ public class ListFinancialHistoryFragment extends Fragment
                 filterAdapter, autoCompleteField));
     }
 
-
-    private List<FinancialHistoryModel> selectedFilterResult(List<String> filteredTagList) {
-        List<FinancialHistoryModel> filteredList = new ArrayList<>();
+    private List<SpendingModel> selectedFilterResult(List<String> filteredTagList) {
+        List<SpendingModel> filteredList = new ArrayList<>();
         for (int i = 0; i<financialList.size(); i++) {
             if(selectFilter(financialList.get(i).getHashTagString(), filteredTagList)) {
                 filteredList.add(financialList.get(i));
@@ -135,44 +139,31 @@ public class ListFinancialHistoryFragment extends Fragment
         return true;
     }
 
-    private SpendingDataModel spendingDataModel() {
-        SpendingDataModel model = new SpendingDataModel();
-        model.setDailyAllocation(0);
-        model.setDailyAllocationString("Rp 0");
-        model.setFinancialHistoryModelList(financialList);
-        model.setHistory(false);
-        model.setTodayAllocation(0);
-        model.setTodayAllocationString("Rp 0");
-        model.setTodaySaving(0);
-        model.setTodaySavingString("Rp 0");
-        model.setTotalSpending(250000);
-        model.setTotalSpendingString("Rp 250.000");
-        return model;
-    }
-
-    private List<FinancialHistoryModel> financialHistoryModelList() {
-        List<FinancialHistoryModel> list = new ArrayList<>();
+    private List<SpendingModel> spendingModelList() {
+        List<SpendingModel> list = new ArrayList<>();
         for(int i = 0; i<8; i++) {
-            FinancialHistoryModel financialHistoryModel = new FinancialHistoryModel();
-            financialHistoryModel.setAmountUnformatted(50000);
-            financialHistoryModel.setAmount("Rp 50.000");
-            financialHistoryModel.setDate("08.32 WIB February 17th 2017");
             List<String> hashTagList = new ArrayList<>();
             hashTagList.add("#Makan");
             hashTagList.add("#Siang");
             hashTagList.add("#Liburan");
-            financialHistoryModel.setHashtag(hashTagList);
-            financialHistoryModel
-                    .setInfo("#Liburan #Makan Martabak Telor Mang Udin the Conqueror #Siang siang 3 Paket");
-            if(i > 8) {
-                financialHistoryModel.setTheme(i - 9);
-            } else financialHistoryModel.setTheme(i);
-            list.add(financialHistoryModel);
+            SpendingModel spendingModel = new SpendingModel(
+                    i,
+                    "Rp 50.000",
+                    50000,
+                    false,
+                    1,
+                    "#Makan#Siang#Liburan",
+                    "08.32 WIB February 17th 2017",
+                    i,
+                    hashTagList,
+                    "#Liburan #Makan Martabak Telor Mang Udin the Conqueror #Siang siang 3 Paket"
+                    );
+            list.add(spendingModel);
         }
         return list;
     }
 
-    public void onDataAdded(FinancialHistoryModel newData) {
+    private void onDataAdded(SpendingModel newData) {
         financialList.add(0, newData);
         /*financialHistoryListAdapter
                 .notifyItemInserted(FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER);
@@ -185,6 +176,10 @@ public class ListFinancialHistoryFragment extends Fragment
 
         //TODO RELEASE IF ANIMATION CAUSES MUCH BUGS
         financialHistoryListAdapter.notifyDataSetChanged();
+    }
+
+    private void onDataEdited(SpendingModelWrapper alteredData) {
+        financialList.set(alteredData.getPosition(), alteredData.getSpendingModel());
     }
 
 
@@ -225,8 +220,7 @@ public class ListFinancialHistoryFragment extends Fragment
 
             @Override
             public void onEditTextEmptied() {
-                /*financialHistoryListAdapter.updateData(financialList);
-                financialHistoryListAdapter.notifyDataSetChanged();*/
+
             }
 
             @Override
@@ -275,12 +269,30 @@ public class ListFinancialHistoryFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == ADD_NEW_PAYMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            onDataAdded((FinancialHistoryModel) data.getParcelableExtra(EXTRA_ADD_DATA_RESULT));
+            onDataAdded(((SpendingModelWrapper) data.getParcelableExtra(EXTRA_ADD_DATA_RESULT))
+                    .getSpendingModel());
+        } else {
+            onDataEdited((SpendingModelWrapper) data.getParcelableExtra(EXTRA_ADD_DATA_RESULT));
         }
     }
 
     @Override
     public void onHeaderClickedListener() {
-        onHomeButtonFabClicked();
+        openAddTodaySpending();
+    }
+
+    @Override
+    public void onItemClicked(int position, @NotNull SpendingModel spendingModel) {
+        Intent intent = new Intent(getActivity(), EditPaymentActivity.class);
+        SpendingModelWrapper spendingModelWrapper = new SpendingModelWrapper(
+                position, spendingModel
+        );
+        intent.putExtra(PaymentTemplateInterface.EXTRAS_OPEN_EDIT_PAYMENT_PAGE, spendingModelWrapper);
+        startActivityForResult(intent, HomeActivityListener.EDIT_PAYMENT_REQUEST_CODE);
+    }
+
+    @Override
+    public void onHeaderClicked() {
+        openAddTodaySpending();
     }
 }

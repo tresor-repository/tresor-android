@@ -1,5 +1,6 @@
 package com.tresor.common.activity.addpayment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +15,12 @@ import android.widget.TextView;
 
 import com.tresor.R;
 import com.tresor.common.activity.TresorPlainActivity;
+import com.tresor.common.model.viewmodel.SpendingModel;
 import com.tresor.home.bottomsheet.IconAdapter;
 import com.tresor.home.inteface.HomeActivityListener;
 import com.tresor.home.model.FinancialHistoryModel;
 import com.tresor.home.model.IconModel;
+import com.tresor.home.model.SpendingModelWrapper;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,15 +49,32 @@ public abstract class PaymentTemplate extends TresorPlainActivity implements Pay
         EditText fieldInfo = (EditText) findViewById(R.id.edit_text_insert_info);
         TextView nextButton = (TextView) findViewById(R.id.next_button);
         RecyclerView iconList = (RecyclerView) findViewById(R.id.icon_list);
-        FinancialHistoryModel model = initialModel();
-        populateView(model, fieldAmount, fieldInfo);
+        SpendingModelWrapper modelWrapper = initialModel();
+        populateView(modelWrapper.getSpendingModel(), fieldAmount, fieldInfo);
         List<IconModel> generatedIcons = generatedIconList();
         generatedIcons.get(imageChoosen()).setChoosen(true);
-        IconAdapter iconListAdapter = new IconAdapter(generatedIcons, model);
+        IconAdapter iconListAdapter = new IconAdapter(
+                generatedIcons, modelWrapper.getSpendingModel()
+        );
         iconList.setLayoutManager(new GridLayoutManager(this, 4));
         iconList.setAdapter(iconListAdapter);
         iconListAdapter.notifyDataSetChanged();
-        nextButton.setOnClickListener(onFinishButtonClickedListener(fieldAmount, fieldInfo, model));
+        if (getMode() == HomeActivityListener.EDIT_PAYMENT_REQUEST_CODE) {
+            nextButton.setOnClickListener(onFinishButtonClickedListener(
+                    fieldAmount,
+                    fieldInfo,
+                    modelWrapper,
+                    iconListAdapter)
+            );
+        } else {
+            //nextButton.setOnClickListener(onSendDataToWs());
+            nextButton.setOnClickListener(onFinishButtonClickedListener(
+                    fieldAmount,
+                    fieldInfo,
+                    modelWrapper,
+                    iconListAdapter)
+            );
+        }
         fieldAmount.setOnKeyListener(onFieldAmountKeyListener(fieldInfo));
         fieldInfo.setOnKeyListener(onFieldInfoKeyListener(imm));
         fieldAmount.setLocale(new Locale("en_US"));
@@ -63,7 +83,7 @@ public abstract class PaymentTemplate extends TresorPlainActivity implements Pay
 
     }
 
-    protected abstract FinancialHistoryModel initialModel();
+    protected abstract SpendingModelWrapper initialModel();
 
     protected abstract int imageChoosen();
 
@@ -82,7 +102,8 @@ public abstract class PaymentTemplate extends TresorPlainActivity implements Pay
 
     private View.OnClickListener onFinishButtonClickedListener(final CurrencyEditText fieldAmount,
                                                                final EditText fieldInfo,
-                                                               final FinancialHistoryModel model) {
+                                                               final SpendingModelWrapper modelWrapper,
+                                                               final IconAdapter adapter) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,40 +112,75 @@ public abstract class PaymentTemplate extends TresorPlainActivity implements Pay
                 Intent intent = new Intent();
                 intent.putExtra(
                         HomeActivityListener.EXTRA_ADD_DATA_RESULT,
-                        resultModel(fieldInfo, fieldAmount, model)
+                        resultModel(fieldInfo, fieldAmount, modelWrapper, adapter)
                 );
-                setResult(getMode(), intent);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
             }
         };
     }
 
-    private void populateView(FinancialHistoryModel model,
+    //TODO when have ws, on success reopen activity
+    private View.OnClickListener onSendDataToWs() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+    }
+
+    private void populateView(SpendingModel model,
                               CurrencyEditText fieldAmount,
                               EditText fieldInfo) {
-        if(model.getAmount() != null) {
+        if (model.getAmount() != null) {
             fieldAmount.setText(String.valueOf(model.getAmountUnformatted()));
             fieldInfo.setText(model.getInfo());
         }
     }
 
-    private FinancialHistoryModel resultModel(EditText fieldInfo,
-                                              CurrencyEditText fieldAmount,
-                                              FinancialHistoryModel model) {
+    private SpendingModelWrapper resultModel(EditText fieldInfo,
+                                             CurrencyEditText fieldAmount,
+                                             SpendingModelWrapper modelWrapper,
+                                             IconAdapter adapter) {
+        return new SpendingModelWrapper(
+                modelWrapper.getPosition(),
+                alteredModel(fieldInfo,
+                        fieldAmount,
+                        modelWrapper.getSpendingModel(), adapter));
+    }
+
+    private SpendingModel alteredModel(EditText fieldInfo,
+                                      CurrencyEditText fieldAmount,
+                                      SpendingModel model,
+                                      IconAdapter adapter) {
         String info = fieldInfo.getText().toString();
         List<String> hashTagList = new ArrayList<>();
         populateHasTagList(info, hashTagList);
         String price = fieldAmount.getText().toString();
-        model.setInfo(info);
-        model.setAmount(price);
-        model.setHashtag(hashTagList);
+        String appendedString = "";
+        for (int i = 0; i < hashTagList.size(); i++) {
+            appendedString += hashTagList.get(i);
+        }
+        Double amountUnformatted = 0.0;
         try {
-            model.setAmountUnformatted(fieldAmount.getCurrencyDouble());
+            amountUnformatted = fieldAmount.getCurrencyDouble();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        model.setDate(DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime()));
-        return model;
+
+        String date = DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
+
+        return new SpendingModel(model.getId(),
+                price,
+                amountUnformatted,
+                model.getUserComma(),
+                model.getCurrencyId(),
+                appendedString,
+                date,
+                adapter.getChoosenIcon(),
+                hashTagList,
+                info);
     }
 
     private List<IconModel> generatedIconList() {

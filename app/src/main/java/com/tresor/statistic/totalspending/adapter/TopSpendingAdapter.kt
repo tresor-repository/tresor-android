@@ -15,19 +15,19 @@ class TopSpendingAdapter(
         private val originalSpendingModels: MutableList<DailySpendingModel>) :
         RecyclerView.Adapter<TopSpendingViewHolder>() {
 
-    public fun onHighestSpendingClicked() {
+    fun onHighestSpendingClicked() {
         fun selector(spending: DailySpendingModel): Float = spending.totalAmount
         spendingModels = originalSpendingModels.sortedByDescending { selector(it) }.toMutableList()
         notifyDataSetChanged()
     }
 
-    public fun onLowestSpendingClicked() {
+    fun onLowestSpendingClicked() {
         fun selector(spending: DailySpendingModel): Float = spending.totalAmount
         spendingModels = originalSpendingModels.sortedBy { selector(it) }.toMutableList()
         notifyDataSetChanged()
     }
 
-    public fun onSortByDateClicked() = with(spendingModels) {
+    fun onSortByDateClicked() = with(spendingModels) {
         clear()
         addAll(originalSpendingModels)
         notifyDataSetChanged()
