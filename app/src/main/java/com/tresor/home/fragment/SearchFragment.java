@@ -165,7 +165,7 @@ public class SearchFragment extends DateRangeFragment
 
             @Override
             public void onEditTextEmptied() {
-                /*financialHistoryListAdapter.updateData(financialList);
+                /*financialHistoryListAdapter.updateFilteredData(financialList);
                 financialHistoryListAdapter.notifyDataSetChanged();*/
             }
 

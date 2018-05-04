@@ -21,8 +21,6 @@ public class HomeActivity extends TresorActivity
         EditPaymentDialog.EditItemListener,
         TimePickerDialogFragment.DatePickerListener{
 
-    private ListFinancialHistoryFragment listFinancialHistoryFragment;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,12 +31,10 @@ public class HomeActivity extends TresorActivity
     @Override
     public void onDataAdded(SpendingModel newData) {
         setSelectedMenu(R.id.add_menu);
-        //listFinancialHistoryFragment.onDataAdded(newData);
     }
 
     @Override
     public void onItemEdited() {
-        listFinancialHistoryFragment.onItemEdited();
     }
 
     @Override

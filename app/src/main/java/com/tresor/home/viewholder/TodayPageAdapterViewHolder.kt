@@ -21,6 +21,7 @@ class TodayPageAdapterViewHolder(itemView: View, val listener: TodaySpendingAdap
 
         item_recycler_view.layoutManager = LinearLayoutManager(context)
         item_recycler_view.adapter = ItemAdapterKotlin(spendingModelList, listener)
+        item_recycler_view.isNestedScrollingEnabled = false
     }
 
     interface TodaySpendingAdapterListener {

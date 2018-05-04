@@ -139,15 +139,11 @@ class ListFinancialHistoryFragment : Fragment(),
         financialHistoryListAdapter.notifyDataSetChanged()
     }
 
-    fun onItemEdited() {
-        financialHistoryListAdapter.notifyDataSetChanged()
-    }
-
     private fun filterItemClicked(autoCompleteHashTagList: List<String>,
                                   filterAdapter: FilterAdapter,
                                   position: Int) {
         filterAdapter.addNewHashTag(autoCompleteHashTagList[position])
-        financialHistoryListAdapter.updateData(selectedFilterResult(filterAdapter.hashTagShownInAdapter))
+        financialHistoryListAdapter.updateFilteredData(selectedFilterResult(filterAdapter.hashTagShownInAdapter))
         auto_complete_filter.setText("")
         auto_complete_filter.requestFocus()
         /*autoCompleteTextView.addNewString(autoCompleteHashTagList.get(position));
@@ -182,14 +178,14 @@ class ListFinancialHistoryFragment : Fragment(),
     }
 
     private fun updateAdapter(autoCompleteTextView: FilterAutoCompleteTextView) {
-        financialHistoryListAdapter.updateData(selectedFilterResult(autoCompleteTextView.separatedString))
+        financialHistoryListAdapter.updateFilteredData(selectedFilterResult(autoCompleteTextView.separatedString))
         autoCompleteTextView.requestFocus()
     }
 
     override fun onFilterItemRemoved(hashTagList: List<String>) {
         when {
-            hashTagList.isEmpty() -> financialHistoryListAdapter.updateData(financialList)
-            else -> financialHistoryListAdapter.updateData(selectedFilterResult(hashTagList))
+            hashTagList.isEmpty() -> financialHistoryListAdapter.updateFilteredData(financialList)
+            else -> financialHistoryListAdapter.updateFilteredData(selectedFilterResult(hashTagList))
         }
     }
 

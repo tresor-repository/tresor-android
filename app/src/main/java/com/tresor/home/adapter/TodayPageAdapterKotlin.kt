@@ -30,9 +30,11 @@ class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingMod
         return TodayPageAdapterViewHolder(itemView, listener)
     }
 
-    fun updateData(spendingModels: MutableList<SpendingModel>) {
+    fun updateFilteredData(spendingModels: MutableList<SpendingModel>) {
         spendingModels.clear()
         spendingModels.addAll(spendingModels)
         notifyDataSetChanged()
     }
+
+
 }
