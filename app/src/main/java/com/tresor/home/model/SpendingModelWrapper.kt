@@ -31,4 +31,5 @@ data class SpendingModelWrapper(val position: Int, val spendingModel: SpendingMo
             return arrayOfNulls(size)
         }
     }
+
 }

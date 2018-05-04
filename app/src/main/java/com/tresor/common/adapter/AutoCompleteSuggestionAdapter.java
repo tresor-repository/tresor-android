@@ -60,5 +60,6 @@ public class AutoCompleteSuggestionAdapter extends ArrayAdapter<String>{
 
     public void updateData(List<String> listOfRecommendedHashTag) {
         this.listOfRecommendation = listOfRecommendedHashTag;
+        notifyDataSetChanged();
     }
 }

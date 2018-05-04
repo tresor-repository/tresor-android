@@ -11,9 +11,9 @@ import com.tresor.home.viewholder.TodayPageAdapterViewHolder
  * Created by kris on 5/2/18. Tokopedia
  */
 class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingModel>,
-                             private val listener: TodayPageAdapterViewHolder
-                             .TodaySpendingAdapterListener):
-        RecyclerView.Adapter<TodayPageAdapterViewHolder>() {
+                             private val listener:
+                             TodayPageAdapterViewHolder.TodaySpendingAdapterListener)
+    : RecyclerView.Adapter<TodayPageAdapterViewHolder>() {
 
     override fun onBindViewHolder(holder: TodayPageAdapterViewHolder, position: Int) {
         holder.bind(spendingModels)
@@ -33,5 +33,6 @@ class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingMod
     fun updateData(spendingModels: MutableList<SpendingModel>) {
         spendingModels.clear()
         spendingModels.addAll(spendingModels)
+        notifyDataSetChanged()
     }
 }

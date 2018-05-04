@@ -84,7 +84,6 @@ class HashTagUsagePanel : RelativeLayout {
                 listOfHashTag.add("#gemuk" + query)
                 listOfHashTag.add("#kawai" + query)*/
                 arrayAdapter.updateData(listOfHashTag)
-                arrayAdapter.notifyDataSetChanged()
             }
 
             override fun onTypingError(e: Throwable) {

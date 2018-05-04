@@ -156,7 +156,6 @@ public class SearchFragment extends DateRangeFragment
                 listOfHashTag.add("liburan");
                 listOfHashTag.add("pup");
                 arrayAdapter.updateData(listOfHashTag);
-                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override

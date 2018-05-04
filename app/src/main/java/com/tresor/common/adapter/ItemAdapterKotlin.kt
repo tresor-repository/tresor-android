@@ -21,6 +21,7 @@ class ItemAdapterKotlin(private val spendingList: MutableList<SpendingModel>,
     }
 
     override fun onDelete(position: Int) {
+        spendingList.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, spendingList.size)
     }

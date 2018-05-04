@@ -39,7 +39,7 @@ public abstract class TresorActivity extends AppCompatActivity {
                 Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.add_menu:
-                        selectedFragment = ListFinancialHistoryFragment.createFragment();
+                        selectedFragment = ListFinancialHistoryFragment.Companion.createFragment();
                         break;
                     case R.id.search_menu:
                         selectedFragment = SearchFragment.createInstance();
