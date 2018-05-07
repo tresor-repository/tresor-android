@@ -2,7 +2,6 @@ package com.tresor.home.activity
 
 import android.content.Context
 import android.content.Intent
-import com.tresor.common.activity.addpayment.PaymentTemplate
 import com.tresor.common.activity.addpayment.PaymentTemplateInterface
 import com.tresor.common.activity.addpayment.PaymentTemplateKotlin
 import com.tresor.home.inteface.HomeActivityListener

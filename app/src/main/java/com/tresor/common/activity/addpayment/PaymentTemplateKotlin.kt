@@ -33,7 +33,7 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         populateView()
         val generatedIcons = generatedIconList()
         val iconListAdapter = IconAdapterKotlin(generatedIcons)
-        generatedIcons[imageChosen()].isChoosen = true
+        generatedIcons[imageChosen()].isChosen = true
         icon_list.apply {
             layoutManager = GridLayoutManager(this@PaymentTemplateKotlin, 4)
             adapter = iconListAdapter
@@ -71,6 +71,7 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
                 modelWrapper,
                 iconAdapter))
         setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     private fun resultModel(modelWrapper: SpendingModelWrapper,
@@ -83,7 +84,10 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
     private fun alteredModel(spendingModel: SpendingModel,
                              iconAdapter: IconAdapterKotlin): SpendingModel {
         val info = edit_text_insert_info.text.toString()
-        val hashTagList: MutableList<String> = populateHashTagList(info)
+        val hashTagList: MutableList<String> = populateHashTagList(
+                info,
+                iconAdapter.getChosenIconDefaultHashTag()
+        )
         var appendString = ""
         hashTagList.forEach { hashTag -> appendString += hashTag }
         val amountUnformatted: Double = edit_text_insert_amount.currencyDouble
@@ -96,13 +100,13 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
                 spendingModel.currencyId,
                 appendString,
                 date,
-                iconAdapter.getChoosenIcon(),
+                iconAdapter.getChosenIcon(),
                 hashTagList,
                 info
         )
     }
 
-    private fun populateHashTagList(info: String)
+    private fun populateHashTagList(info: String, defaultIconHashTag: String)
             : MutableList<String> {
         val hashTagList = mutableListOf<String>()
         val patternString = "(\\s|\\A)#(\\w+)"
@@ -112,6 +116,9 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
             if (regexMatcher.group().isNotEmpty()) {
                 hashTagList.add(regexMatcher.group())
             }
+        }
+        when(hashTagList.size) {
+            0 -> hashTagList.add(defaultIconHashTag)
         }
         return hashTagList
     }
@@ -155,30 +162,15 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
 
     private fun generatedIconList(): MutableList<IconModel> {
         val iconModelList = mutableListOf<IconModel>()
-        var iconModel = IconModel()
-        iconModel.iconImageId = 0
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 1
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 2
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 3
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 4
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 5
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 6
-        iconModelList.add(iconModel)
-        iconModel = IconModel()
-        iconModel.iconImageId = 7
-        iconModelList.add(iconModel)
+        iconModelList.add(IconModel(0, "GeneralSpending", true, false))
+        iconModelList.add(IconModel(1, "Food", true, false))
+        iconModelList.add(IconModel(2, "Clothing", true, false))
+        iconModelList.add(IconModel(3, "Tools", true, false))
+        iconModelList.add(IconModel(4, "Health", true, false))
+        iconModelList.add(IconModel(5, "Grocery", true, false))
+        iconModelList.add(IconModel(6, "Electronics", true, false))
+        iconModelList.add(IconModel(7, "Hygiene", true, false))
+        iconModelList.add(IconModel(8, "Transportation", true, false))
         return iconModelList
     }
 

@@ -34,12 +34,13 @@ class IconAdapterViewHolder(holderView: View, private val iconModelList: Mutable
             5 -> image.setImageResource(R.drawable.ic_grocery)
             6 -> image.setImageResource(R.drawable.ic_electronics_alternative)
             7 -> image.setImageResource(R.drawable.ic_hygine)
+            8 -> image.setImageResource(R.drawable.ic_transportation)
             else -> image.setImageResource(R.drawable.ic_transportation)
         }
     }
 
     private fun switchIconBackground(parentLayout: RelativeLayout, position: Int) {
-        when(iconModelList[position].isChoosen) {
+        when(iconModelList[position].isChosen) {
             true -> parentLayout
                     .setBackgroundColor(
                             parentLayout.context.resources.getColor(R.color.brightBlue)
@@ -51,8 +52,8 @@ class IconAdapterViewHolder(holderView: View, private val iconModelList: Mutable
     }
 
     private fun refreshIcons(position: Int) {
-        iconModelList.forEach { iconModel -> iconModel.isChoosen = false}
-        iconModelList[position].isChoosen = true
+        iconModelList.forEach { iconModel -> iconModel.isChosen = false}
+        iconModelList[position].isChosen = true
     }
 
     interface iconViewHolderListener{

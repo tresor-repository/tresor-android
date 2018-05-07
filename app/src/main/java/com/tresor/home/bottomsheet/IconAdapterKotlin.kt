@@ -30,8 +30,13 @@ class IconAdapterKotlin(private val iconModelList: MutableList<IconModel>)
         return iconModelList.size
     }
 
-    fun getChoosenIcon(): Int {
-        return iconModelList.indices.firstOrNull { iconModelList[it].isChoosen }
+    fun getChosenIcon(): Int {
+        return iconModelList.indices.firstOrNull { iconModelList[it].isChosen }
                 ?: 0
     }
+
+    fun getChosenIconDefaultHashTag(): String {
+        return iconModelList.first { iconModel ->  iconModel.isChosen}.defaultTag
+    }
+
 }

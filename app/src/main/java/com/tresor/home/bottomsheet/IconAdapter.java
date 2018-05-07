@@ -10,16 +10,15 @@ import android.widget.RelativeLayout;
 import com.tresor.R;
 import com.tresor.common.model.viewmodel.SpendingModel;
 import com.tresor.home.inteface.IconSelectetionListener;
-import com.tresor.home.model.FinancialHistoryModel;
 import com.tresor.home.model.IconModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by kris on 7/6/17. Tokopedia
  */
 
+/*
 public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
 
     private List<IconModel> iconModelList;
@@ -67,7 +66,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
     }
 
     private void switchIconBackgroundColor(ImageHolder holder, int position) {
-        if(!iconModelList.get(position).isChoosen())
+        if(!iconModelList.get(position).isChosen())
             holder.parentLayout.setBackgroundColor(holder.parentLayout.getContext()
                     .getResources().getColor(android.R.color.transparent));
         else holder.parentLayout.setBackgroundColor(holder.parentLayout.getContext()
@@ -91,7 +90,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
 
     public int getChoosenIcon() {
         for (int i = 0; i < iconModelList.size(); i++) {
-            if (iconModelList.get(i).isChoosen()) return i;
+            if (iconModelList.get(i).isChosen()) return i;
         }
         return 0;
     }
@@ -129,3 +128,4 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
         }
     }
 }
+*/

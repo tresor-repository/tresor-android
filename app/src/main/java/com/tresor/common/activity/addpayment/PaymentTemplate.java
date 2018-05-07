@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.tresor.R;
 import com.tresor.common.activity.TresorPlainActivity;
 import com.tresor.common.model.viewmodel.SpendingModel;
-import com.tresor.home.bottomsheet.IconAdapter;
+//import com.tresor.home.bottomsheet.IconAdapter;
 import com.tresor.home.inteface.HomeActivityListener;
 import com.tresor.home.model.FinancialHistoryModel;
 import com.tresor.home.model.IconModel;
@@ -37,6 +37,7 @@ import faranjit.currency.edittext.CurrencyEditText;
  * Created by kris on 10/15/17. Tokopedia
  */
 
+/*
 public abstract class PaymentTemplate extends TresorPlainActivity implements PaymentTemplateInterface {
 
     @Override
@@ -248,3 +249,4 @@ public abstract class PaymentTemplate extends TresorPlainActivity implements Pay
         };
     }
 }
+*/
