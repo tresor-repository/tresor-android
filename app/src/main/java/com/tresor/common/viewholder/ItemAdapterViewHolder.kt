@@ -14,14 +14,18 @@ class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
 
     fun bind(spendingModel: SpendingModel,
              position: Int,
-             listener: ItemAdapterListener) = with(itemView) {
+             listener: ItemAdapterListener,
+             headerListener: HeaderListener) = with(itemView) {
         history_amount.text = spendingModel.amount
         var appendedHashtag = ""
         spendingModel.listHashTag.forEach { hastag -> appendedHashtag += hastag }
         history_hastag.text = appendedHashtag
         history_info.text = spendingModel.info
         history_date.text = spendingModel.date
-        option_button.setOnClickListener { listener.onDelete(position) }
+        option_button.setOnClickListener {
+            listener.onDelete(position)
+            headerListener.recalculateAfterDelete()
+        }
         item_place_holder.setOnClickListener { listener.onEditProduct(position, spendingModel) }
         setCardTheme(spendingModel.theme, itemView)
     }
@@ -47,6 +51,10 @@ class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     interface ItemAdapterListener {
         fun onEditProduct(position: Int, spendingModel: SpendingModel)
         fun onDelete(position: Int)
+    }
+
+    interface HeaderListener {
+        fun recalculateAfterDelete()
     }
 
 }

@@ -13,8 +13,10 @@ import com.tresor.home.viewholder.TodayPageAdapterViewHolder
  */
 class ItemAdapterKotlin(private val spendingList: MutableList<SpendingModel>,
                         private val listener: TodayPageAdapterViewHolder
-                        .TodaySpendingAdapterListener)
-    : RecyclerView.Adapter<ItemAdapterViewHolder>(), ItemAdapterViewHolder.ItemAdapterListener {
+                        .TodaySpendingAdapterListener,
+                        private val headerListener: ItemAdapterViewHolder.HeaderListener)
+    : RecyclerView.Adapter<ItemAdapterViewHolder>(),
+        ItemAdapterViewHolder.ItemAdapterListener {
 
     override fun onEditProduct(position: Int, spendingModel: SpendingModel) {
         listener.onItemClicked(position, spendingModel)
@@ -27,7 +29,7 @@ class ItemAdapterKotlin(private val spendingList: MutableList<SpendingModel>,
     }
 
     override fun onBindViewHolder(holder: ItemAdapterViewHolder, position: Int) {
-        holder.bind(spendingList[position], position, this)
+        holder.bind(spendingList[position], position, this, headerListener)
     }
 
     override fun getItemCount(): Int {
@@ -40,6 +42,5 @@ class ItemAdapterKotlin(private val spendingList: MutableList<SpendingModel>,
         return ItemAdapterViewHolder(itemView)
 
     }
-
 
 }

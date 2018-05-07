@@ -3,6 +3,7 @@ package com.tresor.home.activity
 import android.content.Context
 import android.content.Intent
 import com.tresor.common.activity.addpayment.PaymentTemplate
+import com.tresor.common.activity.addpayment.PaymentTemplateKotlin
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.SpendingModelWrapper
@@ -17,17 +18,16 @@ fun Context.addPaymentActivityIntent(): Intent {
     return Intent(this, AddPaymentActivity::class.java)
 }
 
-class AddPaymentActivity : PaymentTemplate() {
+class AddPaymentActivity : PaymentTemplateKotlin() {
+    override fun imageChosen(): Int {
+        return INITIAL_IMAGE_SELECTOR_POSITION
+    }
 
     val INITIAL_ITEM_POSITION = 0
     val INITIAL_IMAGE_SELECTOR_POSITION = 0
 
     override fun initialModel(): SpendingModelWrapper {
         return SpendingModelWrapper(INITIAL_ITEM_POSITION, generatePlainSpendingModel())
-    }
-
-    override fun imageChoosen(): Int {
-        return INITIAL_IMAGE_SELECTOR_POSITION
     }
 
     override fun getMode(): Int {

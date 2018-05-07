@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import com.tresor.common.activity.addpayment.PaymentTemplate
 import com.tresor.common.activity.addpayment.PaymentTemplateInterface
+import com.tresor.common.activity.addpayment.PaymentTemplateKotlin
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.SpendingModelWrapper
 
@@ -17,7 +18,7 @@ fun Context.editPaymentActivityIntent(spendingModelWrapper: SpendingModelWrapper
     }
 }
 
-class EditPaymentActivity : PaymentTemplate() {
+class EditPaymentActivity : PaymentTemplateKotlin() {
 
     private val model: SpendingModelWrapper
         get() = intent.getParcelableExtra(PaymentTemplateInterface.EXTRAS_OPEN_EDIT_PAYMENT_PAGE)
@@ -26,7 +27,7 @@ class EditPaymentActivity : PaymentTemplate() {
         return model
     }
 
-    override fun imageChoosen(): Int {
+    override fun imageChosen(): Int {
         return model.spendingModel.theme
     }
 

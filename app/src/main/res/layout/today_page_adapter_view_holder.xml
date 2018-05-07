@@ -4,8 +4,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <include layout="@layout/today_header_list_adapter"/>
     
     <android.support.v7.widget.RecyclerView
         android:id="@+id/item_recycler_view"

@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import com.tresor.R;
 import com.tresor.common.TresorActivity;
 import com.tresor.common.model.viewmodel.SpendingModel;
-import com.tresor.home.dialog.EditPaymentDialog;
-import com.tresor.home.fragment.ListFinancialHistoryFragment;
 import com.tresor.home.inteface.HomeActivityListener;
 import com.tresor.home.inteface.NewDataAddedListener;
 import com.tresor.statistic.dialog.TimePickerDialogFragment;
@@ -18,7 +16,6 @@ import com.tresor.statistic.dialog.TimePickerDialogFragment;
 
 public class HomeActivity extends TresorActivity
         implements HomeActivityListener, NewDataAddedListener,
-        EditPaymentDialog.EditItemListener,
         TimePickerDialogFragment.DatePickerListener{
 
     @Override
@@ -31,10 +28,6 @@ public class HomeActivity extends TresorActivity
     @Override
     public void onDataAdded(SpendingModel newData) {
         setSelectedMenu(R.id.add_menu);
-    }
-
-    @Override
-    public void onItemEdited() {
     }
 
     @Override
