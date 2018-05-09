@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.today_page_adapter_view_holder.view.*
 /**
  * Created by kris on 5/3/18. Tokopedia
  */
-class TodayPageAdapterViewHolder(itemView: View,
-                                 val listener: TodaySpendingAdapterListener,
+class SpendingListItemViewHolder(itemView: View,
+                                 val listener: SpendingItemListener,
                                  private val headerListener: ItemAdapterViewHolder.HeaderListener)
     : RecyclerView.ViewHolder(itemView) {
 
@@ -23,7 +23,7 @@ class TodayPageAdapterViewHolder(itemView: View,
         item_recycler_view.isNestedScrollingEnabled = false
     }
 
-    interface TodaySpendingAdapterListener {
+    interface SpendingItemListener {
         fun onItemClicked(position: Int, spendingModel: SpendingModel)
         fun onHeaderClicked()
     }

@@ -6,14 +6,14 @@ import android.view.ViewGroup
 import com.tresor.R
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.viewholder.ItemAdapterViewHolder
-import com.tresor.home.viewholder.TodayPageAdapterViewHolder
+import com.tresor.home.viewholder.SpendingListItemViewHolder
 
 /**
  * Created by kris on 5/2/18. Tokopedia
  */
 class ItemAdapterKotlin(private val spendingList: MutableList<SpendingModel>,
-                        private val listener: TodayPageAdapterViewHolder
-                        .TodaySpendingAdapterListener,
+                        private val listener: SpendingListItemViewHolder
+                        .SpendingItemListener,
                         private val headerListener: ItemAdapterViewHolder.HeaderListener)
     : RecyclerView.Adapter<ItemAdapterViewHolder>(),
         ItemAdapterViewHolder.ItemAdapterListener {

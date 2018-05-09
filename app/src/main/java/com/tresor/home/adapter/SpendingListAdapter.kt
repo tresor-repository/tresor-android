@@ -7,15 +7,15 @@ import android.view.ViewGroup
 import com.tresor.R
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.viewholder.ItemAdapterViewHolder
-import com.tresor.home.viewholder.TodayPageAdapterViewHolder
-import com.tresor.home.viewholder.TodayPageHeaderViewHolder
+import com.tresor.home.viewholder.SpendingListItemViewHolder
+import com.tresor.home.viewholder.SpendingListHeaderViewHolder
 
 /**
  * Created by kris on 5/2/18. Tokopedia
  */
-class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingModel>,
-                             private val listener:
-                             TodayPageAdapterViewHolder.TodaySpendingAdapterListener)
+class SpendingListAdapter(private val spendingModels: MutableList<SpendingModel>,
+                          private val listener:
+                             SpendingListItemViewHolder.SpendingItemListener)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>(), ItemAdapterViewHolder.HeaderListener {
 
     override fun recalculateAfterDelete() {
@@ -24,8 +24,8 @@ class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingMod
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is TodayPageHeaderViewHolder -> holder.bindHeader(spendingModels)
-            else -> (holder as TodayPageAdapterViewHolder).bind(spendingModels)
+            is SpendingListHeaderViewHolder -> holder.bindHeader(spendingModels)
+            else -> (holder as SpendingListItemViewHolder).bind(spendingModels)
         }
     }
 
@@ -40,11 +40,11 @@ class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingMod
     override fun onCreateViewHolder(parent: ViewGroup, viewTypeByPosition: Int)
             : RecyclerView.ViewHolder {
         return when (viewTypeByPosition) {
-            0 -> TodayPageHeaderViewHolder(
+            0 -> SpendingListHeaderViewHolder(
                     inflateItemView(parent, R.layout.today_header_list_adapter),
                     listener
             )
-            else -> TodayPageAdapterViewHolder(
+            else -> SpendingListItemViewHolder(
                     inflateItemView(parent, R.layout.today_page_adapter_view_holder),
                     listener, this)
         }
@@ -55,8 +55,8 @@ class TodayPageAdapterKotlin(private val spendingModels: MutableList<SpendingMod
     }
 
     fun updateFilteredData(spendingModels: MutableList<SpendingModel>) {
-        spendingModels.clear()
-        spendingModels.addAll(spendingModels)
+        this::spendingModels.get().clear()
+        this::spendingModels.get().addAll(spendingModels)
         notifyDataSetChanged()
     }
 

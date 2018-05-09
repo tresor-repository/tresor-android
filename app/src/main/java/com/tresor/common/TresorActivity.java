@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.tresor.R;
 import com.tresor.home.fragment.ListFinancialHistoryFragment;
-import com.tresor.home.fragment.SearchFragment;
+import com.tresor.home.fragment.SearchFragmentKotlin;
 import com.tresor.home.fragment.StatisticFragment;
 
 /**
@@ -42,7 +42,7 @@ public abstract class TresorActivity extends AppCompatActivity {
                         selectedFragment = ListFinancialHistoryFragment.Companion.createFragment();
                         break;
                     case R.id.search_menu:
-                        selectedFragment = SearchFragment.createInstance();
+                        selectedFragment = SearchFragmentKotlin.Companion.createInstance();
                         break;
                     case R.id.statistic_menu:
                         selectedFragment = StatisticFragment.Companion.createInstance();

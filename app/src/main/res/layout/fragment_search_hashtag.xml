@@ -17,9 +17,23 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/padding_small"
                 android:layout_marginEnd="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
                 android:orientation="vertical">
+
+                <com.tresor.common.widget.implementable.FilterAutoCompleteTextView
+                    android:id="@+id/auto_complete_search_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:drawableLeft="@android:drawable/ic_menu_search"
+                    android:drawableStart="@android:drawable/ic_menu_search"
+                    android:hint="Tag to Search" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/filter_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -30,50 +44,73 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/rounded_android_button"
                         android:focusable="false"
+                        android:gravity="center"
                         android:hint="Start Date"
                         android:inputType="none"
                         android:minWidth="120dp"
-                        android:textColor="@android:color/white"
+                        android:padding="@dimen/padding_vs"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/text_title" />
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:gravity="center"
-                        android:text="To"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_title" />
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="@dimen/margin_vs"
+                        android:layout_marginLeft="@dimen/margin_vs"
+                        android:layout_marginRight="@dimen/margin_vs"
+                        android:layout_marginStart="@dimen/margin_vs"
+                        android:src="@drawable/ic_arrow_forward_24dp" />
 
                     <EditText
                         android:id="@+id/end_date_field"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/rounded_android_button"
                         android:focusable="false"
+                        android:gravity="center"
                         android:hint="End Date"
                         android:inputType="none"
                         android:minWidth="120dp"
-                        android:textColor="@android:color/white"
+                        android:padding="@dimen/padding_vs"
                         android:textIsSelectable="true"
                         android:textSize="@dimen/text_title" />
 
                 </LinearLayout>
 
-                <com.tresor.common.widget.implementable.FilterAutoCompleteTextView
-                    android:id="@+id/auto_complete_search_filter"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@android:drawable/ic_menu_search"
-                    android:drawableStart="@android:drawable/ic_menu_search"
-                    android:hint="Search Tag" />
+                    android:layout_gravity="end"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:background="@drawable/rounded_dark"
+                    android:gravity="center"
+                    android:paddingEnd="@dimen/margin_vs"
+                    android:paddingLeft="@dimen/margin_large"
+                    android:paddingRight="@dimen/margin_vs"
+                    android:paddingStart="@dimen/margin_large">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/filter_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_vs"
+                        android:layout_marginEnd="@dimen/margin_vs"
+                        android:layout_marginRight="@dimen/margin_vs"
+                        android:layout_marginTop="@dimen/margin_vs"
+                        android:text="Search"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/text_title" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_autorenew_24dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

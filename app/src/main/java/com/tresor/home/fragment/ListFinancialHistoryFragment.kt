@@ -15,15 +15,14 @@ import com.tresor.R
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
 import com.tresor.common.adapter.FilterAdapter
 import com.tresor.common.model.viewmodel.SpendingModel
-import com.tresor.common.widget.implementable.FilterAutoCompleteTextView
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
-import com.tresor.home.adapter.TodayPageAdapterKotlin
+import com.tresor.home.adapter.SpendingListAdapter
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.inteface.HomeActivityListener.*
 import com.tresor.home.model.SpendingModelWrapper
-import com.tresor.home.viewholder.TodayPageAdapterViewHolder
+import com.tresor.home.viewholder.SpendingListItemViewHolder
 
 import java.util.ArrayList
 
@@ -36,12 +35,12 @@ import kotlinx.android.synthetic.main.fragment_list_financial_history.*
  */
 
 class ListFinancialHistoryFragment : Fragment(),
-        TodayPageAdapterViewHolder.TodaySpendingAdapterListener,
+        SpendingListItemViewHolder.SpendingItemListener,
         FilterAdapter.onFilterItemClicked {
 
-    private val financialList: MutableList<SpendingModel> = mutableListOf()
-    private val financialHistoryListAdapter: TodayPageAdapterKotlin =
-            TodayPageAdapterKotlin(financialList, this)
+    private val spendingList: MutableList<SpendingModel> = mutableListOf()
+    private val spendingListAdapter: SpendingListAdapter =
+            SpendingListAdapter(spendingList, this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_list_financial_history, container, false)
@@ -67,10 +66,10 @@ class ListFinancialHistoryFragment : Fragment(),
 
     private fun setSpendingList() {
         list_financial_history.layoutManager = LinearLayoutManager(activity)
-        financialList.clear()
-        financialList.addAll(spendingModelList())
-        list_financial_history.adapter = financialHistoryListAdapter
-        financialHistoryListAdapter.notifyDataSetChanged()
+        spendingList.clear()
+        spendingList.addAll(spendingModelList())
+        list_financial_history.adapter = spendingListAdapter
+        spendingListAdapter.notifyDataSetChanged()
     }
 
     private fun setAutoCompleteView() {
@@ -98,7 +97,7 @@ class ListFinancialHistoryFragment : Fragment(),
         val hashTagSuggestions = ArrayList<String>()
         auto_complete_filter.initComponent(
                 CompositeDisposable(),
-                autoCompleteListener(arrayAdapter, hashTagSuggestions, auto_complete_filter)
+                autoCompleteListener(arrayAdapter, hashTagSuggestions)
         )
         auto_complete_filter.setOnItemClickListener { _, _, position, _ ->
             filterItemClicked(hashTagSuggestions, filterAdapter, position)
@@ -106,9 +105,9 @@ class ListFinancialHistoryFragment : Fragment(),
     }
 
     private fun selectedFilterResult(filteredTagList: List<String>): MutableList<SpendingModel> {
-        return financialList.indices
-                .filter { selectFilter(financialList[it].hashTagString, filteredTagList) }
-                .mapTo(ArrayList()) { financialList[it] }
+        return spendingList.indices
+                .filter { selectFilter(spendingList[it].hashTagString, filteredTagList) }
+                .mapTo(ArrayList()) { spendingList[it] }
     }
 
     private fun selectFilter(hashTagString: String, listOfFilters: List<String>): Boolean {
@@ -120,41 +119,66 @@ class ListFinancialHistoryFragment : Fragment(),
     }
 
     private fun onDataAdded(newData: SpendingModel) {
-        financialList.add(0, newData)
-        /*financialHistoryListAdapter
+        spendingList.add(0, newData)
+        /*spendingListAdapter
                 .notifyItemInserted(FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER);
-        financialHistoryListAdapter
+        spendingListAdapter
                 .notifyItemRangeInserted(
                         FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER,
-                        financialList.size() + FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER
+                        spendingList.size() + FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER
                 );
         financialHistoryList.scrollToPosition(FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER);*/
 
         //TODO RELEASE IF ANIMATION CAUSES MUCH BUGS
-        financialHistoryListAdapter.notifyDataSetChanged()
+        spendingListAdapter.notifyDataSetChanged()
     }
 
     private fun onDataEdited(alteredData: SpendingModelWrapper) {
-        financialList[alteredData.position] = alteredData.spendingModel
-        financialHistoryListAdapter.notifyDataSetChanged()
+        spendingList[alteredData.position] = alteredData.spendingModel
+        spendingListAdapter.notifyDataSetChanged()
     }
 
     private fun filterItemClicked(autoCompleteHashTagList: List<String>,
                                   filterAdapter: FilterAdapter,
                                   position: Int) {
         filterAdapter.addNewHashTag(autoCompleteHashTagList[position])
-        financialHistoryListAdapter.updateFilteredData(selectedFilterResult(filterAdapter.hashTagShownInAdapter))
+        spendingListAdapter.updateFilteredData(selectedFilterResult(
+                filterAdapter.hashTagShownInAdapter)
+        )
         auto_complete_filter.setText("")
         auto_complete_filter.requestFocus()
-        /*autoCompleteTextView.addNewString(autoCompleteHashTagList.get(position));
-                updateAdapter(autoCompleteTextView);
-                autoCompleteTextView.setSelection(autoCompleteTextView.getText().length());*/
+    }
+
+    private fun updateAdapter() {
+        spendingListAdapter.updateFilteredData(selectedFilterResult(auto_complete_filter.separatedString))
+        auto_complete_filter.requestFocus()
+    }
+
+    override fun onFilterItemRemoved(hashTagList: List<String>) {
+        when {
+            hashTagList.isEmpty() -> spendingListAdapter.updateFilteredData(spendingList)
+            else -> spendingListAdapter.updateFilteredData(selectedFilterResult(hashTagList))
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when {
+            requestCode == ADD_NEW_PAYMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK ->
+                onDataAdded(
+                        (data!!.getParcelableExtra<Parcelable>(EXTRA_ADD_DATA_RESULT)
+                                as SpendingModelWrapper
+                                ).spendingModel)
+
+            requestCode == EDIT_PAYMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK ->
+                onDataEdited(data!!.getParcelableExtra<Parcelable>(EXTRA_ADD_DATA_RESULT)
+                        as SpendingModelWrapper)
+        }
     }
 
     private fun autoCompleteListener(
             arrayAdapter: AutoCompleteSuggestionAdapter,
-            listOfHashTag: MutableList<String>,
-            autoCompleteTextView: FilterAutoCompleteTextView): SmartAutoCompleteTextView.AutoCompleteListener {
+            listOfHashTag: MutableList<String>): SmartAutoCompleteTextView.AutoCompleteListener {
 
         return object : SmartAutoCompleteTextView.AutoCompleteListener {
             override fun finishedTyping(query: String) {
@@ -172,35 +196,8 @@ class ListFinancialHistoryFragment : Fragment(),
             override fun onEditTextEmptied() {} //TODO Coming Soon
 
             override fun onEnterKeyPressed() {
-                updateAdapter(autoCompleteTextView)
+                updateAdapter()
             }
-        }
-    }
-
-    private fun updateAdapter(autoCompleteTextView: FilterAutoCompleteTextView) {
-        financialHistoryListAdapter.updateFilteredData(selectedFilterResult(autoCompleteTextView.separatedString))
-        autoCompleteTextView.requestFocus()
-    }
-
-    override fun onFilterItemRemoved(hashTagList: List<String>) {
-        when {
-            hashTagList.isEmpty() -> financialHistoryListAdapter.updateFilteredData(financialList)
-            else -> financialHistoryListAdapter.updateFilteredData(selectedFilterResult(hashTagList))
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when {
-            requestCode == ADD_NEW_PAYMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK ->
-                onDataAdded(
-                        (data!!.getParcelableExtra<Parcelable>(EXTRA_ADD_DATA_RESULT)
-                                as SpendingModelWrapper
-                                ).spendingModel)
-
-            requestCode == EDIT_PAYMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK ->
-                onDataEdited(data!!.getParcelableExtra<Parcelable>(EXTRA_ADD_DATA_RESULT)
-                        as SpendingModelWrapper)
         }
     }
 
