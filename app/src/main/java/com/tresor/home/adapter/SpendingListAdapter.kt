@@ -20,6 +20,9 @@ class SpendingListAdapter(private val spendingModels: MutableList<SpendingModel>
 
     override fun recalculateAfterDelete() {
         notifyItemChanged(0)
+        when(spendingModels.size) {
+            0 -> listener.onItemEmpty()
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {

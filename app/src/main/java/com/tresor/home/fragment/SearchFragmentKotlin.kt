@@ -1,7 +1,6 @@
 package com.tresor.home.fragment
 
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import android.widget.EditText
 import com.tresor.R
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
@@ -11,6 +10,7 @@ import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
+import com.tresor.home.adapter.EmptySearchAdapter
 import com.tresor.home.adapter.SpendingListAdapter
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.SpendingModelWrapper
@@ -56,12 +56,13 @@ class SearchFragmentKotlin :
                 HomeActivityListener.ADD_NEW_PAYMENT_REQUEST_CODE)
     }
 
+    override fun onItemEmpty() {
+        search_recycler_view.adapter = EmptySearchAdapter(false)
+    }
+
     override fun initMainView() {
-        spendingList.clear()
-        spendingList.addAll(generateSpendingModelList())
-        search_recycler_view.adapter = spendingListAdapter
-        spendingListAdapter.notifyDataSetChanged()
         search_recycler_view.layoutManager = (LinearLayoutManager(activity))
+        search_recycler_view.adapter = EmptySearchAdapter(true)
         val filterAdapter = FilterAdapter(this)
         filter_recycler_view.adapter = filterAdapter
         val arrayAdapter = AutoCompleteSuggestionAdapter(activity)
@@ -73,6 +74,19 @@ class SearchFragmentKotlin :
         )
         auto_complete_search_filter.setOnItemClickListener { _, _, position, _ ->
             filterItemClicked(hashTagSuggestions, filterAdapter, position)
+        }
+        search_button.setOnClickListener { setSpending(generateSpendingModelList()) }
+    }
+
+    private fun setSpending(spendingModelList: MutableList<SpendingModel>) {
+        when(spendingModelList.size) {
+            0 -> onItemEmpty()
+            else -> {
+                spendingList.clear()
+                spendingList.addAll(spendingModelList)
+                search_recycler_view.adapter = spendingListAdapter
+                spendingListAdapter.notifyDataSetChanged()
+            }
         }
     }
 

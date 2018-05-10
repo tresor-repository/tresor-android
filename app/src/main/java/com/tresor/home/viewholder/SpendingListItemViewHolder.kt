@@ -25,6 +25,7 @@ class SpendingListItemViewHolder(itemView: View,
 
     interface SpendingItemListener {
         fun onItemClicked(position: Int, spendingModel: SpendingModel)
+        fun onItemEmpty()
         fun onHeaderClicked()
     }
 

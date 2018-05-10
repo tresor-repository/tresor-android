@@ -18,10 +18,12 @@ import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
+import com.tresor.home.adapter.EmptyDailyListAdapter
 import com.tresor.home.adapter.SpendingListAdapter
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.inteface.HomeActivityListener.*
 import com.tresor.home.model.SpendingModelWrapper
+import com.tresor.home.viewholder.EmptyDailyListViewHolder
 import com.tresor.home.viewholder.SpendingListItemViewHolder
 
 import java.util.ArrayList
@@ -36,11 +38,13 @@ import kotlinx.android.synthetic.main.fragment_list_financial_history.*
 
 class ListFinancialHistoryFragment : Fragment(),
         SpendingListItemViewHolder.SpendingItemListener,
+        EmptyDailyListViewHolder.EmptyDailyListListener,
         FilterAdapter.onFilterItemClicked {
 
     private val spendingList: MutableList<SpendingModel> = mutableListOf()
     private val spendingListAdapter: SpendingListAdapter =
             SpendingListAdapter(spendingList, this)
+    private val emptyAdapter = EmptyDailyListAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_list_financial_history, container, false)
@@ -49,7 +53,7 @@ class ListFinancialHistoryFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAutoCompleteView()
-        setSpendingList()
+        setSpendingList(spendingModelList())
     }
 
     override fun onItemClicked(position: Int, spendingModel: SpendingModel) {
@@ -60,16 +64,29 @@ class ListFinancialHistoryFragment : Fragment(),
         )
     }
 
+    override fun onAddFirstSpending() {
+        startActivityForResult(activity.addPaymentActivityIntent(), ADD_NEW_PAYMENT_REQUEST_CODE)
+    }
+
     override fun onHeaderClicked() {
         startActivityForResult(activity.addPaymentActivityIntent(), ADD_NEW_PAYMENT_REQUEST_CODE)
     }
 
-    private fun setSpendingList() {
+    override fun onItemEmpty() {
+        list_financial_history.adapter = emptyAdapter
+    }
+
+    private fun setSpendingList(spendingModelList: MutableList<SpendingModel>) {
         list_financial_history.layoutManager = LinearLayoutManager(activity)
-        spendingList.clear()
-        spendingList.addAll(spendingModelList())
-        list_financial_history.adapter = spendingListAdapter
-        spendingListAdapter.notifyDataSetChanged()
+        when(spendingModelList.size) {
+            0 -> onItemEmpty()
+            else -> {
+                spendingList.clear()
+                spendingList.addAll(spendingModelList)
+                list_financial_history.adapter = spendingListAdapter
+                spendingListAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun setAutoCompleteView() {
@@ -119,6 +136,7 @@ class ListFinancialHistoryFragment : Fragment(),
     }
 
     private fun onDataAdded(newData: SpendingModel) {
+        list_financial_history.adapter = spendingListAdapter
         spendingList.add(0, newData)
         /*spendingListAdapter
                 .notifyItemInserted(FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER);
