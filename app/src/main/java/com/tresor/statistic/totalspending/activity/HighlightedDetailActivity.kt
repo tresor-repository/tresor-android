@@ -6,7 +6,7 @@ import android.os.Bundle
 
 import com.tresor.R
 import com.tresor.common.activity.TresorPlainActivity
-import com.tresor.home.fragment.ListFinancialHistoryFragment
+import com.tresor.home.fragment.TodaySpendingFragment
 
 
 /**
@@ -29,7 +29,7 @@ class HighlightedDetailActivity : TresorPlainActivity() {
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.highlighted_detail_main_view,
-                        ListFinancialHistoryFragment.createFragment())
+                        TodaySpendingFragment.createFragment())
                 .commit()
     }
 }

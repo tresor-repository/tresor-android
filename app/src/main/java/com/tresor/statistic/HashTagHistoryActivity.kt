@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.tresor.R
 import com.tresor.common.activity.TresorPlainActivity
-import com.tresor.home.fragment.ListFinancialHistoryFragment
+import com.tresor.home.fragment.TodaySpendingFragment
 
 /**
  * Created by kris on 5/1/18. Tokopedia
@@ -35,7 +35,7 @@ class HashTagHistoryActivity : TresorPlainActivity() {
         fragmentManager
                 .beginTransaction()
                 .replace(R.id.highlighted_detail_main_view,
-                        ListFinancialHistoryFragment.createFragment())
+                        TodaySpendingFragment.createFragment())
                 .commit()
     }
 

@@ -7,28 +7,35 @@ import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
 import com.tresor.common.adapter.FilterAdapter
 import com.tresor.common.fragment.DateRangeFragmentKotlin
 import com.tresor.common.model.viewmodel.SpendingModel
-import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
 import com.tresor.home.adapter.EmptySearchAdapter
 import com.tresor.home.adapter.SpendingListAdapter
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.SpendingModelWrapper
+import com.tresor.home.presenter.SearchPresenter
 import com.tresor.home.viewholder.SpendingListItemViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_search_hashtag.*
-import java.util.ArrayList
 
 /**
  * Created by kris on 5/8/18. Tokopedia
  */
 class SearchFragmentKotlin :
+        SearchInterface,
         DateRangeFragmentKotlin(),
         SpendingListItemViewHolder.SpendingItemListener,
         FilterAdapter.onFilterItemClicked {
 
-    private val spendingList = mutableListOf<SpendingModel>()
-    private val spendingListAdapter = SpendingListAdapter(spendingList, this)
+    private val presenter = SearchPresenter(this)
+
+    override fun onEmptySpending() {
+        onItemEmpty()
+    }
+
+    override fun renderSpending(spendingModelList: MutableList<SpendingModel>) {
+        search_recycler_view.adapter = SpendingListAdapter(spendingModelList, this)
+    }
 
     companion object {
         fun createInstance(): SearchFragmentKotlin {
@@ -37,10 +44,7 @@ class SearchFragmentKotlin :
     }
 
     override fun onFilterItemRemoved(hashTagList: MutableList<String>) {
-        when {
-            hashTagList.isEmpty() -> spendingListAdapter.updateFilteredData(spendingList)
-            else -> spendingListAdapter.updateFilteredData(selectedFilterResult(hashTagList))
-        }
+
     }
 
     override fun onItemClicked(position: Int, spendingModel: SpendingModel) {
@@ -70,24 +74,25 @@ class SearchFragmentKotlin :
         auto_complete_search_filter.setAdapter(arrayAdapter)
         auto_complete_search_filter.initComponent(
                 CompositeDisposable(),
-                autoCompleteListener(arrayAdapter, hashTagSuggestions)
+                presenter.autoCompletePresenterListener(
+                        start_date_field.text.toString(),
+                        end_date_field.text.toString(),
+                        hashTagSuggestions,
+                        arrayAdapter
+                )
         )
         auto_complete_search_filter.setOnItemClickListener { _, _, position, _ ->
             filterItemClicked(hashTagSuggestions, filterAdapter, position)
         }
-        search_button.setOnClickListener { setSpending(generateSpendingModelList()) }
+        search_button.setOnClickListener { setSpending(filterAdapter.hashTagShownInAdapter) }
     }
 
-    private fun setSpending(spendingModelList: MutableList<SpendingModel>) {
-        when(spendingModelList.size) {
-            0 -> onItemEmpty()
-            else -> {
-                spendingList.clear()
-                spendingList.addAll(spendingModelList)
-                search_recycler_view.adapter = spendingListAdapter
-                spendingListAdapter.notifyDataSetChanged()
-            }
-        }
+    private fun setSpending(filterHashTag: MutableList<String>) {
+        search_recycler_view.layoutManager = LinearLayoutManager(activity)
+        presenter.fetchSearchData(
+                start_date_field.text.toString(),
+                end_date_field.text.toString(),
+                filterHashTag)
     }
 
     override fun getLayoutId(): Int {
@@ -98,59 +103,7 @@ class SearchFragmentKotlin :
                                   filterAdapter: FilterAdapter,
                                   position: Int) {
         filterAdapter.addNewHashTag(autoCompleteHashTagList[position])
-        spendingListAdapter.updateFilteredData(selectedFilterResult(
-                filterAdapter.hashTagShownInAdapter)
-        )
-        spendingListAdapter.notifyDataSetChanged()
         auto_complete_search_filter.setText("")
-        auto_complete_search_filter.requestFocus()
-    }
-
-    private fun selectedFilterResult(filteredTagList: List<String>): MutableList<SpendingModel> {
-        return spendingList.indices
-                .filter { selectFilter(spendingList[it].hashTagString, filteredTagList) }
-                .mapTo(ArrayList()) { spendingList[it] }
-    }
-
-    private fun selectFilter(hashTagString: String, listOfFilters: List<String>): Boolean {
-        return listOfFilters.indices.any {
-            hashTagString
-                    .toLowerCase()
-                    .contains(listOfFilters[it].toLowerCase())
-        }
-    }
-
-    private fun autoCompleteListener(
-            arrayAdapter: AutoCompleteSuggestionAdapter,
-            listOfHashTag: MutableList<String>): SmartAutoCompleteTextView.AutoCompleteListener {
-
-        return object : SmartAutoCompleteTextView.AutoCompleteListener {
-            override fun finishedTyping(query: String) {
-                listOfHashTag.clear()
-                listOfHashTag.add("makan")
-                listOfHashTag.add("siang")
-                listOfHashTag.add("liburan")
-                listOfHashTag.add("pup")
-                arrayAdapter.updateData(listOfHashTag)
-            }
-
-            override fun onTypingError(e: Throwable) {
-
-            }
-
-            override fun onEditTextEmptied() {
-                /*financialHistoryListAdapter.updateFilteredData(financialList);
-                financialHistoryListAdapter.notifyDataSetChanged();*/
-            }
-
-            override fun onEnterKeyPressed() {
-                updateAdapter()
-            }
-        }
-    }
-
-    private fun updateAdapter() {
-        spendingListAdapter.updateFilteredData(selectedFilterResult(auto_complete_search_filter.separatedString))
         auto_complete_search_filter.requestFocus()
     }
 
@@ -163,34 +116,11 @@ class SearchFragmentKotlin :
     }
 
     override fun startDateChanged(date: Int, month: Int, year: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun endDateChanged(date: Int, month: Int, year: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
-    private fun generateSpendingModelList(): MutableList<SpendingModel> {
-        val list = ArrayList<SpendingModel>()
-        for (i in 0..7) {
-            val hashTagList = ArrayList<String>()
-            hashTagList.add("#Makan")
-            hashTagList.add("#Siang")
-            hashTagList.add("#Liburan")
-            val spendingModel = SpendingModel(
-                    i,
-                    "Rp 50.000",
-                    50000.0,
-                    false,
-                    1,
-                    "#Makan#Siang#Liburan",
-                    "08.32 WIB February 17th 2017",
-                    i,
-                    hashTagList,
-                    "#Liburan #Makan Martabak Telor Mang Udin the Conqueror #Siang siang 3 Paket"
-            )
-            list.add(spendingModel)
-        }
-        return list
-    }
 }
