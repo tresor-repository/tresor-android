@@ -13,20 +13,18 @@ import kotlinx.android.synthetic.main.financial_list_adapter.view.*
 class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(spendingModel: SpendingModel,
-             position: Int,
-             listener: ItemAdapterListener,
-             headerListener: HeaderListener) = with(itemView) {
+             adapterPosition: Int,
+             listener: ItemAdapterListener) = with(itemView) {
         history_amount.text = spendingModel.amount
-        var appendedHashtag = ""
-        spendingModel.listHashTag.forEach { hastag -> appendedHashtag += hastag }
-        history_hastag.text = appendedHashtag
+        var appendedHashTag = ""
+        spendingModel.listHashTag.forEach { hastag -> appendedHashTag += "#" + hastag }
+        history_hastag.text = appendedHashTag
         history_info.text = spendingModel.info
         history_date.text = spendingModel.date
-        option_button.setOnClickListener {
-            listener.onDelete(position)
-            headerListener.recalculateAfterDelete()
+        option_button.setOnClickListener { listener.onDelete(adapterPosition, spendingModel) }
+        item_place_holder.setOnClickListener {
+            listener.onEditProduct(adapterPosition, spendingModel)
         }
-        item_place_holder.setOnClickListener { listener.onEditProduct(position, spendingModel) }
         setCardTheme(spendingModel.theme, itemView)
     }
 
@@ -49,12 +47,12 @@ class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     }
 
     interface ItemAdapterListener {
-        fun onEditProduct(position: Int, spendingModel: SpendingModel)
-        fun onDelete(position: Int)
+        fun onEditProduct(adapterPosition: Int, spendingModel: SpendingModel)
+        fun onDelete(adapterPosition: Int, spendingModel: SpendingModel)
     }
 
     interface HeaderListener {
-        fun recalculateAfterDelete()
+        fun recalculateTotalAmount()
     }
 
 }

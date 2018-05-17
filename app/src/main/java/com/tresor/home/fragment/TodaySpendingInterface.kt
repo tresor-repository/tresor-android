@@ -11,4 +11,12 @@ interface TodaySpendingInterface {
 
     fun renderSpending(spendingModelList: MutableList<SpendingModel>)
 
+    fun addSpending(spendingModel: SpendingModel)
+
+    fun editSpending(adapterIndex: Int, spendingModel: SpendingModel)
+
+    fun deleteSpending(adapterIndex: Int, spendingModel: SpendingModel)
+
+    fun addDataFromNextPage(nextPageSpendings: MutableList<SpendingModel>)
+
 }

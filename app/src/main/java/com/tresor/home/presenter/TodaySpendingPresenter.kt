@@ -1,6 +1,7 @@
 package com.tresor.home.presenter
 
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
+import com.tresor.common.constant.UniversalConstant
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.fragment.TodaySpendingInterface
@@ -10,6 +11,12 @@ import java.util.ArrayList
  * Created by kris on 5/11/18. Tokopedia
  */
 class TodaySpendingPresenter(val view: TodaySpendingInterface): TodaySpendingPresenterInterface {
+
+    override fun loadMorePage(currentSize: Int) {
+        val nextPage = currentSize/UniversalConstant.ItemsPerPage + 1
+        //TODO call this method after success
+        view.renderSpending(spendingModelList())
+    }
 
     override fun fetchSpendingList() {
         //TODO call updateList(spendingList) after call api
@@ -46,13 +53,37 @@ class TodaySpendingPresenter(val view: TodaySpendingInterface): TodaySpendingPre
         }
     }
 
+    override fun addNewSpending(spendingModel: SpendingModel) {
+        //TODO Add spending API
+        view.addSpending(spendingModel)
+    }
+
+    override fun editNewSpending(position: Int, spendingModel: SpendingModel) {
+        //TODO Edit Spending API
+        view.editSpending(position, spendingModel)
+    }
+
+    override fun deleteSpendingRecord(position: Int, spendingModel: SpendingModel) {
+        //TODO Delete Spending Record API
+        view.deleteSpending(position, spendingModel)
+    }
+
+    private fun updateList(spendingList: MutableList<SpendingModel>) {
+        when (spendingList.size) {
+            0 -> view.onEmptySpending()
+            else -> {
+                view.renderSpending(spendingList)
+            }
+        }
+    }
+
     private fun spendingModelList(): MutableList<SpendingModel> {
         val list = ArrayList<SpendingModel>()
         for (i in 0..7) {
             val hashTagList = ArrayList<String>()
-            hashTagList.add("#Makan")
-            hashTagList.add("#Siang")
-            hashTagList.add("#Liburan")
+            hashTagList.add("Makan")
+            hashTagList.add("Siang")
+            hashTagList.add("Liburan")
             val spendingModel = SpendingModel(
                     i,
                     "Rp 50.000",
@@ -70,42 +101,5 @@ class TodaySpendingPresenter(val view: TodaySpendingInterface): TodaySpendingPre
         return list
     }
 
-    override fun addNewSpending(spendingModel: SpendingModel) {
-        //TODO Add spending API
-        val spendingList = spendingModelList()
-        spendingList.add(0, spendingModel)
-        updateList(spendingList)
-    }
-
-    override fun editNewSpending(position: Int, spendingModel: SpendingModel) {
-        //TODO Edit Spending API
-        val spendingList = spendingModelList()
-        spendingList[position] = spendingModel
-        updateList(spendingList)
-    }
-
-    private fun updateList(spendingList: MutableList<SpendingModel>) {
-        when (spendingList.size) {
-            0 -> view.onEmptySpending()
-            else -> {
-                view.renderSpending(spendingList)
-            }
-        }
-    }
-
-    //TODO Archive algorithm if needed
-/*    private fun selectedFilterResult(filteredTagList: List<String>): MutableList<SpendingModel> {
-        return spendingList.indices
-                .filter { selectFilter(spendingList[it].hashTagString, filteredTagList) }
-                .mapTo(ArrayList()) { spendingList[it] }
-    }
-
-    private fun selectFilter(hashTagString: String, listOfFilters: List<String>): Boolean {
-        return listOfFilters.indices.any {
-            hashTagString
-                    .toLowerCase()
-                    .contains(listOfFilters[it].toLowerCase())
-        }
-    }*/
 
 }

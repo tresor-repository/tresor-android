@@ -24,7 +24,6 @@ import com.tresor.home.inteface.HomeActivityListener.*
 import com.tresor.home.model.SpendingModelWrapper
 import com.tresor.home.presenter.TodaySpendingPresenter
 import com.tresor.home.viewholder.EmptyDailyListViewHolder
-import com.tresor.home.viewholder.SpendingListItemViewHolder
 
 import io.reactivex.disposables.CompositeDisposable
 
@@ -37,19 +36,12 @@ import kotlinx.android.synthetic.main.fragment_list_financial_history.*
 class TodaySpendingFragment :
         Fragment(),
         TodaySpendingInterface,
-        SpendingListItemViewHolder.SpendingItemListener,
+        SpendingListAdapter.SpendingItemListener,
         EmptyDailyListViewHolder.EmptyDailyListListener,
         FilterAdapter.onFilterItemClicked {
 
     private val presenter = TodaySpendingPresenter(this)
 
-    override fun onEmptySpending() {
-        onItemEmpty()
-    }
-
-    override fun renderSpending(spendingModelList: MutableList<SpendingModel>) {
-        list_financial_history.adapter = SpendingListAdapter(spendingModelList, this)
-    }
     private val emptyAdapter = EmptyDailyListAdapter(this)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -59,15 +51,50 @@ class TodaySpendingFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setAutoCompleteView()
-        setSpendingList()
+        initializeSpendingList()
     }
 
-    override fun onItemClicked(position: Int, spendingModel: SpendingModel) {
-        val spendingModelWrapper = SpendingModelWrapper(position, spendingModel)
+    override fun onItemClicked(adapterPosition: Int, spendingModel: SpendingModel) {
+        val spendingModelWrapper = SpendingModelWrapper(adapterPosition, spendingModel)
         startActivityForResult(
                 activity.editPaymentActivityIntent(spendingModelWrapper),
                 HomeActivityListener.EDIT_PAYMENT_REQUEST_CODE
         )
+    }
+
+    override fun onRemoveButtonClicked(adapterPosition: Int, spendingModel: SpendingModel) {
+        presenter.deleteSpendingRecord(adapterPosition, spendingModel)
+    }
+
+    override fun renderSpending(spendingModelList: MutableList<SpendingModel>) {
+        list_financial_history.adapter = SpendingListAdapter(spendingModelList, this)
+    }
+
+    override fun addSpending(spendingModel: SpendingModel) {
+        list_financial_history.scrollToPosition(0)
+        (list_financial_history.adapter as SpendingListAdapter).addNewData(spendingModel)
+    }
+
+    override fun editSpending(adapterIndex: Int, spendingModel: SpendingModel) {
+        (list_financial_history.adapter as SpendingListAdapter)
+                .editData(adapterIndex, spendingModel)
+    }
+
+    override fun deleteSpending(adapterIndex: Int, spendingModel: SpendingModel) {
+        (list_financial_history.adapter as SpendingListAdapter)
+                .removeData(adapterIndex, spendingModel)
+    }
+
+    override fun onEmptySpending() {
+        onItemEmpty()
+    }
+
+    override fun loadMoreItem(listSize: Int) {
+        presenter.loadMorePage(listSize)
+    }
+
+    override fun addDataFromNextPage(nextPageSpendings: MutableList<SpendingModel>) {
+        (list_financial_history.adapter as SpendingListAdapter).addNewPageData(nextPageSpendings)
     }
 
     override fun onAddFirstSpending() {
@@ -82,7 +109,7 @@ class TodaySpendingFragment :
         list_financial_history.adapter = emptyAdapter
     }
 
-    private fun setSpendingList() {
+    private fun initializeSpendingList() {
         list_financial_history.layoutManager = LinearLayoutManager(activity)
         presenter.fetchSpendingList()
     }
@@ -131,7 +158,7 @@ class TodaySpendingFragment :
     }
 
     private fun onDataEdited(alteredData: SpendingModelWrapper) {
-        presenter.editNewSpending(alteredData.position, alteredData.spendingModel)
+        presenter.editNewSpending(alteredData.adapterPosition, alteredData.spendingModel)
     }
 
     private fun filterItemClicked(autoCompleteHashTagList: List<String>,

@@ -66,10 +66,13 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
 
     private fun onFinishButtonClickedListener(modelWrapper: SpendingModelWrapper,
                                               iconAdapter: IconAdapterKotlin) {
+        //TODO Call after successfully add or edit
         val intent = Intent()
         intent.putExtra(HomeActivityListener.EXTRA_ADD_DATA_RESULT, resultModel(
                 modelWrapper,
                 iconAdapter))
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE)
+        (imm as InputMethodManager).toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }
@@ -77,7 +80,7 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
     private fun resultModel(modelWrapper: SpendingModelWrapper,
                             iconAdapter: IconAdapterKotlin): SpendingModelWrapper{
         return SpendingModelWrapper(
-                modelWrapper.position,
+                modelWrapper.adapterPosition,
                 alteredModel(modelWrapper.spendingModel, iconAdapter))
     }
 
@@ -114,7 +117,7 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         val regexMatcher = pattern.matcher(info)
         while (regexMatcher.find()) {
             if (regexMatcher.group().isNotEmpty()) {
-                hashTagList.add(regexMatcher.group())
+                hashTagList.add(regexMatcher.group().trim().replace("#", ""))
             }
         }
         when(hashTagList.size) {

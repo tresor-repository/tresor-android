@@ -14,7 +14,6 @@ import com.tresor.home.adapter.SpendingListAdapter
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.SpendingModelWrapper
 import com.tresor.home.presenter.SearchPresenter
-import com.tresor.home.viewholder.SpendingListItemViewHolder
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.fragment_search_hashtag.*
 
@@ -24,8 +23,12 @@ import kotlinx.android.synthetic.main.fragment_search_hashtag.*
 class SearchFragmentKotlin :
         SearchInterface,
         DateRangeFragmentKotlin(),
-        SpendingListItemViewHolder.SpendingItemListener,
+        SpendingListAdapter.SpendingItemListener,
         FilterAdapter.onFilterItemClicked {
+
+    override fun onRemoveButtonClicked(adapterPosition: Int, spendingModel: SpendingModel) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val presenter = SearchPresenter(this)
 
@@ -53,6 +56,10 @@ class SearchFragmentKotlin :
                 activity.editPaymentActivityIntent(spendingModelWrapper),
                 HomeActivityListener.EDIT_PAYMENT_REQUEST_CODE
         )
+    }
+
+    override fun loadMoreItem(listSize: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onHeaderClicked() {
