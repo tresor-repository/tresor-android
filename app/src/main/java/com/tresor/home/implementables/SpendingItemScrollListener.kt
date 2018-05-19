@@ -15,11 +15,12 @@ class SpendingItemScrollListener(val listener: SpendingListAdapter.SpendingItemL
     override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         val totalItem = recyclerView!!.layoutManager.itemCount
+        val totalData = totalItem - 1
         val lastVisibleItemPosition = (recyclerView.layoutManager as LinearLayoutManager)
                 .findLastVisibleItemPosition()
         if (lastVisibleItemPosition == totalItem - 1
-                && totalItem >= UniversalConstant.ItemsPerPage
-                && totalItem % UniversalConstant.ItemsPerPage == 0) {
+                && totalData >= UniversalConstant.ItemsPerPage
+                && totalData % UniversalConstant.ItemsPerPage == 0) {
             listener.loadMoreItem(totalItem)
         }
 

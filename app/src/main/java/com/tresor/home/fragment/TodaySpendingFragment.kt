@@ -14,11 +14,13 @@ import android.view.ViewGroup
 import com.tresor.R
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
 import com.tresor.common.adapter.FilterAdapter
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
 import com.tresor.home.adapter.EmptyDailyListAdapter
 import com.tresor.home.adapter.SpendingListAdapter
+import com.tresor.home.implementables.SpendingItemScrollListener
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.inteface.HomeActivityListener.*
 import com.tresor.home.model.SpendingModelWrapper
@@ -54,6 +56,12 @@ class TodaySpendingFragment :
         initializeSpendingList()
     }
 
+    private fun initializeSpendingList() {
+        list_financial_history.layoutManager = LinearLayoutManager(activity)
+        presenter.fetchSpendingList()
+        list_financial_history.addOnScrollListener(SpendingItemScrollListener(this))
+    }
+
     override fun onItemClicked(adapterPosition: Int, spendingModel: SpendingModel) {
         val spendingModelWrapper = SpendingModelWrapper(adapterPosition, spendingModel)
         startActivityForResult(
@@ -66,8 +74,8 @@ class TodaySpendingFragment :
         presenter.deleteSpendingRecord(adapterPosition, spendingModel)
     }
 
-    override fun renderSpending(spendingModelList: MutableList<SpendingModel>) {
-        list_financial_history.adapter = SpendingListAdapter(spendingModelList, this)
+    override fun renderSpending(spendingModelDatas: SpendingListDatas) {
+        list_financial_history.adapter = SpendingListAdapter(spendingModelDatas, this)
     }
 
     override fun addSpending(spendingModel: SpendingModel) {
@@ -90,7 +98,10 @@ class TodaySpendingFragment :
     }
 
     override fun loadMoreItem(listSize: Int) {
-        presenter.loadMorePage(listSize)
+        presenter.loadMorePage(
+                listSize,
+                (list_financial_history.adapter as SpendingListAdapter).currentDataSize()
+        )
     }
 
     override fun addDataFromNextPage(nextPageSpendings: MutableList<SpendingModel>) {
@@ -107,11 +118,6 @@ class TodaySpendingFragment :
 
     override fun onItemEmpty() {
         list_financial_history.adapter = emptyAdapter
-    }
-
-    private fun initializeSpendingList() {
-        list_financial_history.layoutManager = LinearLayoutManager(activity)
-        presenter.fetchSpendingList()
     }
 
     private fun setAutoCompleteView() {

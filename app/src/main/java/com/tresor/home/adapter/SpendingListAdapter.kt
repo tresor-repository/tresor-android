@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.tresor.R
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.viewholder.ItemAdapterViewHolder
 import com.tresor.home.viewholder.SpendingAdapterDataHelper
@@ -13,12 +14,14 @@ import com.tresor.home.viewholder.SpendingListHeaderViewHolder
 /**
  * Created by kris on 5/2/18. Tokopedia
  */
-class SpendingListAdapter(private val spendingModels: MutableList<SpendingModel>,
+class SpendingListAdapter(private val spendingListDatas: SpendingListDatas,
                           private val listener:
                           SpendingItemListener) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>(),
         ItemAdapterViewHolder.HeaderListener,
         ItemAdapterViewHolder.ItemAdapterListener {
+
+    private val spendingModels: MutableList<SpendingModel> = spendingListDatas.spendingModelList
 
     private val spendingAdapterDataHelper = SpendingAdapterDataHelper(spendingModels)
     private val headerLayoutId = R.layout.today_header_list_adapter
@@ -27,12 +30,24 @@ class SpendingListAdapter(private val spendingModels: MutableList<SpendingModel>
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is SpendingListHeaderViewHolder -> holder.bindHeader(spendingModels)
+            is SpendingListHeaderViewHolder -> holder.bindHeader(spendingListDatas)
             else -> (holder as ItemAdapterViewHolder).bind(
                     spendingAdapterDataHelper.listOfItems[position] as SpendingModel,
                     position,
                     this
             )
+        }
+    }
+
+    fun recalculateAfterDelete() {
+        notifyItemChanged(0)
+        when (spendingAdapterDataHelper.totalSpendingListSize()) {
+            0 -> listener.onItemEmpty()
+            else ->
+                when (spendingModels.size < 6) {
+                    true ->
+                        listener.loadMoreItem(spendingAdapterDataHelper.totalSpendingListSize())
+                }
         }
     }
 
@@ -70,22 +85,31 @@ class SpendingListAdapter(private val spendingModels: MutableList<SpendingModel>
     }
 
     fun addNewData(spendingModel: SpendingModel) {
-        spendingAdapterDataHelper.addItem(this, spendingModel)
+        spendingAdapterDataHelper.addItem(this, spendingModel, spendingListDatas)
         recalculateTotalAmount()
     }
 
     fun editData(adapterIndex: Int, spendingModel: SpendingModel) {
-        spendingAdapterDataHelper.editItem(this, adapterIndex, spendingModel)
+        spendingAdapterDataHelper.editItem(
+                this,
+                adapterIndex,
+                spendingModel,
+                spendingListDatas
+        )
         recalculateTotalAmount()
     }
 
-    fun removeData (adapterIndex: Int, spendingModel: SpendingModel) {
-        spendingAdapterDataHelper.removeItem(this, adapterIndex, spendingModel)
-        recalculateTotalAmount()
+    fun removeData(adapterIndex: Int, spendingModel: SpendingModel) {
+        spendingAdapterDataHelper.removeItem(this, adapterIndex, spendingModel, spendingListDatas)
+        recalculateAfterDelete()
     }
 
     fun addNewPageData(additionalSpendingModels: MutableList<SpendingModel>) {
-        //spendingModels.addAll(additionalSpendingModels)
+        spendingAdapterDataHelper.loadNewPageItem(this, additionalSpendingModels)
+    }
+
+    fun currentDataSize(): Int {
+        return spendingListDatas.count
     }
 
     private fun inflateItemView(parent: ViewGroup, layout: Int): View {

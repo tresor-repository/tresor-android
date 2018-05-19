@@ -1,5 +1,6 @@
 package com.tresor.home.fragment
 
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 
 /**
@@ -9,7 +10,7 @@ interface TodaySpendingInterface {
 
     fun onEmptySpending()
 
-    fun renderSpending(spendingModelList: MutableList<SpendingModel>)
+    fun renderSpending(spendingModelDatas: SpendingListDatas)
 
     fun addSpending(spendingModel: SpendingModel)
 

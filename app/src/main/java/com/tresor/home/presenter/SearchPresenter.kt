@@ -1,6 +1,7 @@
 package com.tresor.home.presenter
 
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.fragment.SearchInterface
@@ -13,13 +14,12 @@ class SearchPresenter(val view: SearchInterface) : SearchPresenterInterface {
 
     override fun fetchSearchData(startDate: String, endDate: String, hashTagList: List<String>) {
         //TODO fetch search data here
-        val spendingList = generateSpendingModelList()
-        updateList(spendingList)
+        updateList(generateSpendingDatas())
     }
 
     override fun updateFilter(startDate: String, endDate: String, hashTagList: List<String>) {
         //TODO put update list after api call
-        updateList(generateSpendingModelList())
+        updateList(generateSpendingDatas())
     }
 
     override fun autoCompletePresenterListener(startDate: String,
@@ -50,25 +50,30 @@ class SearchPresenter(val view: SearchInterface) : SearchPresenterInterface {
 
     override fun addNewSpending(spendingModel: SpendingModel) {
         //TODO Add spending API
-        val spendingList = generateSpendingModelList()
-        spendingList.add(0, spendingModel)
-        updateList(spendingList)
+        updateList(generateSpendingDatas())
     }
 
     override fun editNewSpending(position: Int, spendingModel: SpendingModel) {
         //TODO Edit Spending API
         val spendingList = generateSpendingModelList()
         spendingList[position] = spendingModel
-        updateList(spendingList)
+        updateList(generateSpendingDatas())
     }
 
-    private fun updateList(spendingList: MutableList<SpendingModel>) {
+    private fun updateList(spendingListDatas: SpendingListDatas) {
+        val spendingList = spendingListDatas.spendingModelList
         when (spendingList.size) {
             0 -> view.onEmptySpending()
             else -> {
-                view.renderSpending(spendingList)
+                view.renderSpending(spendingListDatas)
             }
         }
+    }
+
+    private fun generateSpendingDatas(): SpendingListDatas {
+        return SpendingListDatas(generateSpendingModelList(),
+                500000.0,
+                50)
     }
 
     private fun generateSpendingModelList(): MutableList<SpendingModel> {

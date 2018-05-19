@@ -42,6 +42,8 @@ class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
             5 -> R.drawable.ic_electronics_alternative
             6 -> R.drawable.ic_hygine
             7 -> R.drawable.ic_transportation
+            8 -> R.drawable.ic_car
+            9 -> R.drawable.ic_shopping_dark
             else -> R.mipmap.ic_cat_kitchen_dining_big
         }
     }

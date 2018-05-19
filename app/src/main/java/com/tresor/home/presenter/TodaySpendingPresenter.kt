@@ -2,6 +2,7 @@ package com.tresor.home.presenter
 
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
 import com.tresor.common.constant.UniversalConstant
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.fragment.TodaySpendingInterface
@@ -10,23 +11,24 @@ import java.util.ArrayList
 /**
  * Created by kris on 5/11/18. Tokopedia
  */
-class TodaySpendingPresenter(val view: TodaySpendingInterface): TodaySpendingPresenterInterface {
+class TodaySpendingPresenter(val view: TodaySpendingInterface) : TodaySpendingPresenterInterface {
 
-    override fun loadMorePage(currentSize: Int) {
-        val nextPage = currentSize/UniversalConstant.ItemsPerPage + 1
+    override fun loadMorePage(shownItemSize: Int, currentDataSize: Int) {
+        val nextPage = shownItemSize / UniversalConstant.ItemsPerPage + 1
+        when (shownItemSize < currentDataSize) {
         //TODO call this method after success
-        view.renderSpending(spendingModelList())
+            true -> view.addDataFromNextPage(spendingModelList())
+        }
     }
 
     override fun fetchSpendingList() {
         //TODO call updateList(spendingList) after call api
-        val spendingList = spendingModelList()
-        updateList(spendingList)
+        updateList(generateSpendingDatas())
     }
 
     override fun updateFilter(hashTagList: List<String>) {
         //TODO put update list after api call
-        updateList(spendingModelList())
+        updateList(generateSpendingDatas())
     }
 
     override fun autoCompletePresenterListener(hashTagSuggestions: MutableList<String>,
@@ -68,18 +70,25 @@ class TodaySpendingPresenter(val view: TodaySpendingInterface): TodaySpendingPre
         view.deleteSpending(position, spendingModel)
     }
 
-    private fun updateList(spendingList: MutableList<SpendingModel>) {
+    private fun updateList(spendingListDatas: SpendingListDatas) {
+        val spendingList = spendingListDatas.spendingModelList
         when (spendingList.size) {
             0 -> view.onEmptySpending()
             else -> {
-                view.renderSpending(spendingList)
+                view.renderSpending(spendingListDatas)
             }
         }
     }
 
+    private fun generateSpendingDatas(): SpendingListDatas {
+        return SpendingListDatas(spendingModelList(),
+                2500000.0,
+                50)
+    }
+
     private fun spendingModelList(): MutableList<SpendingModel> {
         val list = ArrayList<SpendingModel>()
-        for (i in 0..7) {
+        for (i in 0..9) {
             val hashTagList = ArrayList<String>()
             hashTagList.add("Makan")
             hashTagList.add("Siang")

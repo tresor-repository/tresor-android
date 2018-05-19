@@ -6,6 +6,7 @@ import com.tresor.R
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
 import com.tresor.common.adapter.FilterAdapter
 import com.tresor.common.fragment.DateRangeFragmentKotlin
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
@@ -36,8 +37,8 @@ class SearchFragmentKotlin :
         onItemEmpty()
     }
 
-    override fun renderSpending(spendingModelList: MutableList<SpendingModel>) {
-        search_recycler_view.adapter = SpendingListAdapter(spendingModelList, this)
+    override fun renderSpending(spendingListDatas: SpendingListDatas) {
+        search_recycler_view.adapter = SpendingListAdapter(spendingListDatas, this)
     }
 
     companion object {

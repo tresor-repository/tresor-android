@@ -22,6 +22,6 @@ interface TodaySpendingPresenterInterface {
 
     fun deleteSpendingRecord(position: Int, spendingModel: SpendingModel)
 
-    fun loadMorePage(currentSize: Int)
+    fun loadMorePage(shownItemSize: Int, currentDataSize: Int)
 
 }
