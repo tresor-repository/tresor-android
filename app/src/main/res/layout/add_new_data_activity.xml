@@ -84,8 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:maxLines="1"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:hint="Add unique #(hashtag) to easily track spending" />
 
         </LinearLayout>

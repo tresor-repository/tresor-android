@@ -109,7 +109,7 @@ class TodaySpendingFragment :
     }
 
     override fun onAddFirstSpending() {
-        startActivityForResult(activity.addPaymentActivityIntent(), ADD_NEW_PAYMENT_REQUEST_CODE)
+        startActivityForResult(activity.addPaymentActivityIntent(), ADD_INITIAL_PAYMENT_CODE)
     }
 
     override fun onHeaderClicked() {
@@ -153,14 +153,15 @@ class TodaySpendingFragment :
 
     private fun onDataAdded(newData: SpendingModel) {
         presenter.addNewSpending(newData)
-        /*spendingListAdapter
-                .notifyItemInserted(FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER);
-        spendingListAdapter
-                .notifyItemRangeInserted(
-                        FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER,
-                        spendingList.size() + FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER
-                );
-        financialHistoryList.scrollToPosition(FinancialHistoryAdapter.NUMBER_OF_HEADER_ADAPTER);*/
+    }
+
+    private fun onInitialDataAdded(newData: SpendingModel) {
+        val newSpendingList = mutableListOf<SpendingModel>()
+        newSpendingList.add(newData)
+        list_financial_history.adapter = SpendingListAdapter(
+                SpendingListDatas(newSpendingList, newData.amountUnformatted, 1), this
+        )
+
     }
 
     private fun onDataEdited(alteredData: SpendingModelWrapper) {
@@ -192,6 +193,11 @@ class TodaySpendingFragment :
             requestCode == EDIT_PAYMENT_REQUEST_CODE && resultCode == Activity.RESULT_OK ->
                 onDataEdited(data!!.getParcelableExtra<Parcelable>(EXTRA_ADD_DATA_RESULT)
                         as SpendingModelWrapper)
+
+            requestCode == ADD_INITIAL_PAYMENT_CODE && resultCode == Activity.RESULT_OK ->
+                onInitialDataAdded((data!!.getParcelableExtra<Parcelable>(EXTRA_ADD_DATA_RESULT)
+                        as SpendingModelWrapper
+                        ).spendingModel)
         }
     }
 
