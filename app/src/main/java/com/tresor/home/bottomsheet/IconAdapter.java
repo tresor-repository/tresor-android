@@ -8,31 +8,31 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.tresor.R;
+import com.tresor.common.model.viewmodel.SpendingModel;
 import com.tresor.home.inteface.IconSelectetionListener;
-import com.tresor.home.model.FinancialHistoryModel;
 import com.tresor.home.model.IconModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by kris on 7/6/17. Tokopedia
  */
 
+/*
 public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
 
     private List<IconModel> iconModelList;
 
     private IconSelectetionListener listener;
 
-    private FinancialHistoryModel model;
+    private SpendingModel model;
 
     public IconAdapter(List<IconModel> iconModelList, IconSelectetionListener listener) {
         this.iconModelList = iconModelList;
         this.listener = listener;
     }
 
-    public IconAdapter(List<IconModel> iconModelList, FinancialHistoryModel model) {
+    public IconAdapter(List<IconModel> iconModelList, SpendingModel model) {
         this.iconModelList = iconModelList;
         this.model = model;
     }
@@ -63,11 +63,10 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
             iconModelList.get(i).setChoosen(false);
         }
         iconModelList.get(position).setChoosen(true);
-        model.setTheme(iconModelList.get(position).getIconImageId());
     }
 
     private void switchIconBackgroundColor(ImageHolder holder, int position) {
-        if(!iconModelList.get(position).isChoosen())
+        if(!iconModelList.get(position).isChosen())
             holder.parentLayout.setBackgroundColor(holder.parentLayout.getContext()
                     .getResources().getColor(android.R.color.transparent));
         else holder.parentLayout.setBackgroundColor(holder.parentLayout.getContext()
@@ -87,6 +86,13 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
             iconImage = (ImageView) itemView.findViewById(R.id.icon_image);
             parentLayout = (RelativeLayout) itemView.findViewById(R.id.parent_layout);
         }
+    }
+
+    public int getChoosenIcon() {
+        for (int i = 0; i < iconModelList.size(); i++) {
+            if (iconModelList.get(i).isChosen()) return i;
+        }
+        return 0;
     }
 
     private void setIconImage(ImageView image, int imageId) {
@@ -122,3 +128,4 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.ImageHolder>{
         }
     }
 }
+*/

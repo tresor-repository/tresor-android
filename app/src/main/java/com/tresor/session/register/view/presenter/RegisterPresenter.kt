@@ -72,7 +72,10 @@ class RegisterPresenter(registerView: RegisterView) : BasePresenter<RegisterView
         }
     }
 
-    fun getRequestBody(email: String, password: String) : SessionRequestBody {
-        return SessionRequestBody(email, password)
+    fun getRequestBody(email: String, password: String) : HashMap<String, Any> {
+        val hashMap : HashMap<String, Any> = HashMap()
+        hashMap.put("email", email)
+        hashMap.put("password", password)
+        return hashMap
     }
 }

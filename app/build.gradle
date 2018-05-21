@@ -60,7 +60,7 @@ dependencies {
 sourceSets {
     main {
         java {
-            exclude '**/DynamicCurrencyEditText.java'
+
         }
     }
     androidTest {

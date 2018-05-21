@@ -54,6 +54,7 @@ class RegisterActivity : BaseActivity<RegisterPresenter>(), RegisterView {
     }
 
     override fun onSuccesRegister(registerViewModel: RegisterViewModel) {
+        //TODO ATIN add after register action
         Toast.makeText(this, "sukses broh", Toast.LENGTH_LONG).show()
     }
 

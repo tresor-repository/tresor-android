@@ -15,14 +15,14 @@ import javax.inject.Inject
 /**
  * @author by alvinatin on 21/04/18.
  */
-class RegisterDataSource @Inject constructor(private val sessionApi: SessionApi,
+class RegisterDataSource (private val sessionApi: SessionApi,
                                              private val registerMapper: RegisterMapper) {
 
-    fun callRegister(email: String, password: String): Flowable<RegisterViewModel>{
-        return sessionApi.register(getRequestBody(email, password)).map(registerMapper)
-    }
-
-    fun getRequestBody(email: String, password: String) : SessionRequestBody {
-        return SessionRequestBody(email, password)
-    }
+//    fun callRegister(email: String, password: String): Flowable<RegisterViewModel>{
+//        return sessionApi.register(getRequestBody(email, password)).map(registerMapper)
+//    }
+//
+//    fun getRequestBody(email: String, password: String) : SessionRequestBody {
+//        return SessionRequestBody(email, password)
+//    }
 }

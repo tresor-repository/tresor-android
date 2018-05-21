@@ -46,25 +46,22 @@
 
         <LinearLayout
             android:id="@+id/add_spending_button"
+            style="@style/TresorButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_vs"
-            android:padding="@dimen/margin_small"
-            android:background="@drawable/rounded_darkened_background"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_title"
-                android:textStyle="bold"
+                android:text="Add Spending"
                 android:textColor="@android:color/white"
-                android:text="Add Spending"/>
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_24dp"/>
+                android:src="@drawable/ic_add_24dp" />
 
         </LinearLayout>
 

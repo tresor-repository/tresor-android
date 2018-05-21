@@ -33,10 +33,12 @@
         <activity android:name=".home.activity.AddPaymentActivity" />
         <activity android:name=".home.activity.EditPaymentActivity" />
         <activity android:name=".statistic.totalspending.activity.TotalSpendingActivity" />
-        <activity
-            android:name=".common.activity.DateSelectorActivity"
-            android:label="@string/title_activity_date_selector"
-            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".statistic.hashtagusage.activity.HashTagUsageComparisonActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".statistic.spendingpiechart.HashtagPieChartActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".statistic.HashTagHistoryActivity"/>
+
     </application>
 
 </manifest>

@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 
 import com.tresor.R
+import com.tresor.common.model.testmodel.TestModel
+import com.tresor.statistic.hashtagusage.activity.HashTagUsageComparisonActivity
+import com.tresor.statistic.spendingpiechart.HashtagPieChartActivity
 import com.tresor.statistic.totalspending.activity.TotalSpendingActivity
+import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_home_statistic_chooser.*
 
 /**
  * Created by kris on 11/14/17. Tokopedia
@@ -17,29 +21,62 @@ import com.tresor.statistic.totalspending.activity.TotalSpendingActivity
 
 class StatisticFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle): View? {
-        val view = inflater.inflate(R.layout.fragment_home_statistic_chooser, container, false)
-        val totalSpendingMenu = view.findViewById(R.id.total_spending_menu) as ImageView
-        val spendingComparisonMenu = view.findViewById(R.id.spending_comparison_menu) as ImageView
-        val pieChartMenu = view.findViewById(R.id.pie_chart_menu) as ImageView
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-        totalSpendingMenu.setOnClickListener(onTotalSpendingMenuClicked())
-        spendingComparisonMenu.setOnClickListener(onComparisonChartClicked())
-
-        return view
-    }
-
-    fun onTotalSpendingMenuClicked(): View.OnClickListener {
-        return View.OnClickListener {
-            startActivity(Intent(activity, TotalSpendingActivity::class.java))
+    companion object {
+        fun createInstance(): StatisticFragment {
+            return StatisticFragment()
         }
     }
 
-    fun onComparisonChartClicked(): View.OnClickListener {
-        return View.OnClickListener {  }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(
+                R.layout.fragment_home_statistic_chooser,
+                container,
+                false)
     }
 
-    fun onPieChartMenuClicked(): View.OnClickListener {
-        return View.OnClickListener {  }
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        totalSpendingMenu.setOnClickListener { onTotalSpendingMenuClicked() }
+        spendingComparisonMenu.setOnClickListener { onComparisonChartClicked() }
+        pieChartMenu.setOnClickListener { onPieChartMenuClicked() }
+    }
+
+    private fun onTotalSpendingMenuClicked() {
+        startActivity(Intent(activity, TotalSpendingActivity::class.java))
+    }
+
+    /*fun onTotalSpendingMenuClicked() {
+        val testService = TestAuthenticatedService()
+        compositeDisposable.add(testService.getTestList()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(this::handleResponse, this::handleError))
+
+
+    }*/
+
+    private fun onComparisonChartClicked() {
+        startActivity(Intent(activity, HashTagUsageComparisonActivity::class.java))
+    }
+
+    private fun onPieChartMenuClicked() {
+        startActivity(Intent(activity, HashtagPieChartActivity::class.java))
+    }
+
+    private fun handleResponse(androidList: List<TestModel>) {
+
+        val mAndroidArrayList = ArrayList(androidList)
+    }
+
+    private fun handleError(error: Throwable) {
+
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable.dispose()
     }
 }

@@ -156,7 +156,6 @@ public class SearchFragment extends DateRangeFragment
                 listOfHashTag.add("liburan");
                 listOfHashTag.add("pup");
                 arrayAdapter.updateData(listOfHashTag);
-                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -166,7 +165,7 @@ public class SearchFragment extends DateRangeFragment
 
             @Override
             public void onEditTextEmptied() {
-                /*financialHistoryListAdapter.updateData(financialList);
+                /*financialHistoryListAdapter.updateFilteredData(financialList);
                 financialHistoryListAdapter.notifyDataSetChanged();*/
             }
 

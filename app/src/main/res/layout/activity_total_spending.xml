@@ -4,112 +4,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.tresor.statistic.totalspending.activity.TotalSpendingActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/padding_small"
-                android:layout_marginEnd="@dimen/padding_small"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/start_date_field"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:focusable="false"
-                        android:hint="Start Date"
-                        android:inputType="none"
-                        android:minWidth="120dp"
-                        android:textColor="@android:color/white"
-                        android:textIsSelectable="true"
-                        android:textSize="@dimen/text_title" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.2"
-                        android:gravity="center"
-                        android:text="To"
-                        android:textColor="@android:color/white"
-                        android:textSize="@dimen/text_title" />
-
-                    <EditText
-                        android:id="@+id/end_date_field"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:focusable="false"
-                        android:hint="End Date"
-                        android:inputType="none"
-                        android:minWidth="120dp"
-                        android:textColor="@android:color/white"
-                        android:textIsSelectable="true"
-                        android:textSize="@dimen/text_title" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </android.support.v7.widget.Toolbar>
-
-    </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/date_selector_header" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="350dp"
+        android:orientation="vertical">
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/hashtag_line_chart"
+            android:id="@+id/hashtagLineChart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_margin="@dimen/margin_large"
             android:background="@drawable/colored_rounded_background"
-            android:padding="@dimen/padding_small"
             android:orientation="vertical"
-            android:layout_alignParentTop="true">
+            android:padding="@dimen/padding_small">
 
             <TextView
-                android:id="@+id/highlighted_spending"
+                android:id="@+id/highlightedSpending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_title"
                 android:textColor="@android:color/black"
+                android:textSize="@dimen/text_title"
                 tools:text="10 Dec : 50000" />
 
             <TextView
-                android:id="@+id/go_to_detail_button"
+                android:id="@+id/goToDetailButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_title"
-
                 android:text="Detail"
-                android:textStyle="bold"
-                android:textColor="@color/mediumBlue" />
+                android:textColor="@color/mediumBlue"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_vs"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small">
+
+            <TextView
+                style="@style/AdapterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Spending:" />
+
+            <TextView
+                android:id="@+id/totalSpendingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_vs"
+                android:layout_marginRight="@dimen/margin_vs"
+                android:textColor="@color/colorDark"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:background="@drawable/square_with_border">
+
+        <Spinner
+            android:id="@+id/listSortingSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/adapter_height" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/topSpendingRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

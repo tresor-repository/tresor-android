@@ -10,9 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.tresor.R;
-import com.tresor.home.fragment.ListFinancialHistoryFragment;
-import com.tresor.home.fragment.SearchFragment;
-import com.tresor.home.fragment.ChartFragment;
+import com.tresor.home.fragment.TodaySpendingFragment;
+import com.tresor.home.fragment.SearchFragmentKotlin;
+import com.tresor.home.fragment.StatisticFragment;
 
 /**
  * Created by kris on 6/11/17. Tokopedia
@@ -39,13 +39,13 @@ public abstract class TresorActivity extends AppCompatActivity {
                 Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.add_menu:
-                        selectedFragment = ListFinancialHistoryFragment.createFragment();
+                        selectedFragment = TodaySpendingFragment.Companion.createFragment();
                         break;
                     case R.id.search_menu:
-                        selectedFragment = SearchFragment.createInstance();
+                        selectedFragment = SearchFragmentKotlin.Companion.createInstance();
                         break;
                     case R.id.statistic_menu:
-                        selectedFragment = ChartFragment.createStatisticFragment();
+                        selectedFragment = StatisticFragment.Companion.createInstance();
                         break;
                 }
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
