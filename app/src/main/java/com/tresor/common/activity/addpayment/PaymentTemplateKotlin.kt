@@ -15,6 +15,7 @@ import com.tresor.home.bottomsheet.IconAdapterKotlin
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.IconModel
 import com.tresor.home.model.SpendingModelWrapper
+import com.tresor.home.viewholder.IconAdapterViewHolder
 import kotlinx.android.synthetic.main.add_new_data_activity.*
 import java.text.DateFormat
 import java.util.*
@@ -23,7 +24,9 @@ import java.util.regex.Pattern
 /**
  * Created by kris on 5/4/18. Tokopedia
  */
-abstract class PaymentTemplateKotlin : TresorPlainActivity() {
+abstract class PaymentTemplateKotlin :
+        TresorPlainActivity(),
+        IconAdapterViewHolder.IconViewHolderListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +35,13 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         (imm as InputMethodManager).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         populateView()
         val generatedIcons = generatedIconList()
-        val iconListAdapter = IconAdapterKotlin(generatedIcons)
+        val iconListAdapter = IconAdapterKotlin(generatedIcons, this)
+
+        //TODO Figure out better method later?
         generatedIcons[imageChosen()].isChosen = true
+        selected_category.text = generatedIcons[imageChosen()].defaultTag
+        //TODO this only how to relate theme with chosen icon
+
         icon_list.apply {
             layoutManager = GridLayoutManager(this@PaymentTemplateKotlin, 4)
             adapter = iconListAdapter
@@ -55,12 +63,19 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         edit_text_insert_info.setOnKeyListener {
             view, keyCode, event ->  onFieldInfoKeyListener(view, keyCode, event, imm)
         }
+        //TODO set Locale depends on user setting
         edit_text_insert_amount.locale = Locale("en_US")
         edit_text_insert_amount.requestFocus()
     }
 
+    override fun iconClicked(chosenCategory: String) {
+        icon_list.adapter.notifyDataSetChanged()
+        selected_category.text = chosenCategory
+    }
+
     private fun populateView() {
-        edit_text_insert_amount.setText((initialModel().spendingModel.amountUnformatted).toString())
+        val floatedAmountUnformatted = initialModel().spendingModel.amountUnformatted.toFloat()
+        edit_text_insert_amount.setText(String.format("%.2f", floatedAmountUnformatted))
         edit_text_insert_info.setText(initialModel().spendingModel.info)
     }
 
@@ -165,15 +180,16 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
 
     private fun generatedIconList(): MutableList<IconModel> {
         val iconModelList = mutableListOf<IconModel>()
-        iconModelList.add(IconModel(0, "GeneralSpending", true, false))
-        iconModelList.add(IconModel(1, "Food", true, false))
-        iconModelList.add(IconModel(2, "Clothing", true, false))
-        iconModelList.add(IconModel(3, "Tools", true, false))
-        iconModelList.add(IconModel(4, "Health", true, false))
-        iconModelList.add(IconModel(5, "Grocery", true, false))
-        iconModelList.add(IconModel(6, "Electronics", true, false))
-        iconModelList.add(IconModel(7, "Hygiene", true, false))
-        iconModelList.add(IconModel(8, "Transportation", true, false))
+        iconModelList.add(IconModel(0, "Food", true, false))
+        iconModelList.add(IconModel(1, "Clothing", true, false))
+        iconModelList.add(IconModel(2, "Tools", true, false))
+        iconModelList.add(IconModel(3, "Health", true, false))
+        iconModelList.add(IconModel(4, "Grocery", true, false))
+        iconModelList.add(IconModel(5, "Electronics", true, false))
+        iconModelList.add(IconModel(6, "Hygiene", true, false))
+        iconModelList.add(IconModel(7, "Transportation", true, false))
+        iconModelList.add(IconModel(8, "Vehicle", true, false))
+        iconModelList.add(IconModel(9, "Shopping", true, false))
         return iconModelList
     }
 

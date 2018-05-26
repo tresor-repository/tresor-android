@@ -39,11 +39,12 @@ class SpendingListAdapter(private val spendingListDatas: SpendingListDatas,
         }
     }
 
-    fun recalculateAfterDelete() {
+    private fun recalculateAfterDelete() {
         notifyItemChanged(0)
         when (spendingAdapterDataHelper.totalSpendingListSize()) {
             0 -> listener.onItemEmpty()
             else ->
+                //TODO BENERIN VALIDASI INI
                 when (spendingModels.size < 6) {
                     true ->
                         listener.loadMoreItem(spendingAdapterDataHelper.totalSpendingListSize())
@@ -112,6 +113,10 @@ class SpendingListAdapter(private val spendingListDatas: SpendingListDatas,
         return spendingListDatas.count
     }
 
+    fun returnSpendingModelByPosition(position: Int): SpendingModel{
+        return spendingAdapterDataHelper.listOfItems[position] as SpendingModel
+    }
+
     private fun inflateItemView(parent: ViewGroup, layout: Int): View {
         return LayoutInflater.from(parent.context).inflate(layout, parent, false)
     }
@@ -122,5 +127,6 @@ class SpendingListAdapter(private val spendingListDatas: SpendingListDatas,
         fun onItemEmpty()
         fun onHeaderClicked()
         fun loadMoreItem(listSize: Int)
+
     }
 }

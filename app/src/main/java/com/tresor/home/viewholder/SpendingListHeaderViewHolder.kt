@@ -3,7 +3,6 @@ package com.tresor.home.viewholder
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.tresor.common.model.viewmodel.SpendingListDatas
-import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.home.adapter.SpendingListAdapter
 import kotlinx.android.synthetic.main.today_header_list_adapter.view.*
 

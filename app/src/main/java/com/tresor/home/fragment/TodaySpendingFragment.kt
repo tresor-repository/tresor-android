@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.tresor.home.activity.addPaymentActivityIntent
 import com.tresor.home.activity.editPaymentActivityIntent
 import com.tresor.home.adapter.EmptyDailyListAdapter
 import com.tresor.home.adapter.SpendingListAdapter
+import com.tresor.home.implementables.PaymentItemSwipeDeleteListener
 import com.tresor.home.implementables.SpendingItemScrollListener
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.inteface.HomeActivityListener.*
@@ -76,6 +78,9 @@ class TodaySpendingFragment :
 
     override fun renderSpending(spendingModelDatas: SpendingListDatas) {
         list_financial_history.adapter = SpendingListAdapter(spendingModelDatas, this)
+        val itemTouchHelper = ItemTouchHelper(PaymentItemSwipeDeleteListener(activity,
+                list_financial_history.adapter as SpendingListAdapter))
+        itemTouchHelper.attachToRecyclerView(list_financial_history)
     }
 
     override fun addSpending(spendingModel: SpendingModel) {

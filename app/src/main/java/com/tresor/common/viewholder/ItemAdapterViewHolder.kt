@@ -5,6 +5,7 @@ import android.view.View
 import com.tresor.R
 import com.tresor.common.model.viewmodel.SpendingModel
 import kotlinx.android.synthetic.main.financial_list_adapter.view.*
+import java.text.NumberFormat
 
 /**
  * Created by kris on 5/2/18. Tokopedia
@@ -15,9 +16,12 @@ class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     fun bind(spendingModel: SpendingModel,
              adapterPosition: Int,
              listener: ItemAdapterListener) = with(itemView) {
-        history_amount.text = spendingModel.amount
+        val currencyFormatter = NumberFormat.getCurrencyInstance()
+
+        //history_amount.text = currencyFormatter.format(spendingModel.amountUnformatted)
+        history_amount.text = spendingModel.amountUnformatted.toString()
         var appendedHashTag = ""
-        spendingModel.listHashTag.forEach { hastag -> appendedHashTag += "#" + hastag }
+        spendingModel.listHashTag.forEach { hashtag -> appendedHashTag += "#" + hashtag }
         history_hastag.text = appendedHashTag
         history_info.text = spendingModel.info
         history_date.text = spendingModel.date

@@ -11,30 +11,32 @@ import kotlinx.android.synthetic.main.icon_list_layout.view.*
 /**
  * Created by kris on 5/6/18. Tokopedia
  */
-class IconAdapterViewHolder(holderView: View, private val iconModelList: MutableList<IconModel>)
+class IconAdapterViewHolder(holderView: View,
+                            private val iconModelList: MutableList<IconModel>)
     : RecyclerView.ViewHolder(holderView) {
 
-    fun bind(imageId: Int, position: Int, listener: iconViewHolderListener) = with(itemView) {
+    fun bind(imageId: Int, position: Int, listener: IconViewHolderListener) = with(itemView) {
         setIconImage(icon_image, imageId)
         switchIconBackground(parent_layout, position)
         parent_layout.setOnClickListener {
             refreshIcons(position)
-            listener.iconClicked()
+            listener.iconClicked(iconModelList[position].defaultTag)
         }
     }
 
     private fun setIconImage(image: ImageView, imageId: Int) {
         //TODO make function to pair data id with drawable id CODE RED
         when (imageId) {
-            0 -> image.setImageResource(R.drawable.ic_spend_money_512)
-            1 -> image.setImageResource(R.drawable.ic_burger_icon_big)
-            2 -> image.setImageResource(R.drawable.ic_clothing)
-            3 -> image.setImageResource(R.drawable.ic_tools)
-            4 -> image.setImageResource(R.drawable.ic_health)
-            5 -> image.setImageResource(R.drawable.ic_grocery)
-            6 -> image.setImageResource(R.drawable.ic_electronics_alternative)
-            7 -> image.setImageResource(R.drawable.ic_hygine)
-            8 -> image.setImageResource(R.drawable.ic_transportation)
+            0 -> image.setImageResource(R.drawable.ic_burger_icon_big)
+            1 -> image.setImageResource(R.drawable.ic_clothing)
+            2 -> image.setImageResource(R.drawable.ic_tools)
+            3 -> image.setImageResource(R.drawable.ic_health)
+            4 -> image.setImageResource(R.drawable.ic_grocery)
+            5 -> image.setImageResource(R.drawable.ic_electronics_alternative)
+            6 -> image.setImageResource(R.drawable.ic_hygine)
+            7 -> image.setImageResource(R.drawable.ic_transportation)
+            8 -> image.setImageResource(R.drawable.ic_car)
+            9 -> image.setImageResource(R.drawable.ic_shopping_dark)
             else -> image.setImageResource(R.drawable.ic_transportation)
         }
     }
@@ -56,8 +58,8 @@ class IconAdapterViewHolder(holderView: View, private val iconModelList: Mutable
         iconModelList[position].isChosen = true
     }
 
-    interface iconViewHolderListener{
-        fun iconClicked()
+    interface IconViewHolderListener {
+        fun iconClicked(chosenCategory: String)
     }
 
 }
