@@ -129,4 +129,8 @@ class SpendingListAdapter(private val spendingListDatas: SpendingListDatas,
         fun loadMoreItem(listSize: Int)
 
     }
+
+    override fun setHasStableIds(hasStableIds: Boolean) {
+        super.setHasStableIds(true)
+    }
 }

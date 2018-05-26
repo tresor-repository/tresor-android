@@ -20,9 +20,10 @@ class ItemAdapterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
 
         //history_amount.text = currencyFormatter.format(spendingModel.amountUnformatted)
         history_amount.text = spendingModel.amountUnformatted.toString()
-        var appendedHashTag = ""
-        spendingModel.listHashTag.forEach { hashtag -> appendedHashTag += "#" + hashtag }
-        history_hastag.text = appendedHashTag
+        //var appendedHashTag = ""
+        //spendingModel.listHashTag.forEach { hashtag -> appendedHashTag += "#" + hashtag }
+        //history_hastag.text = appendedHashTag
+        history_hastag.text = spendingModel.hashTagString
         history_info.text = spendingModel.info
         history_date.text = spendingModel.date
         option_button.setOnClickListener { listener.onDelete(adapterPosition, spendingModel) }

@@ -62,6 +62,10 @@ class TodaySpendingFragment :
         list_financial_history.layoutManager = LinearLayoutManager(activity)
         presenter.fetchSpendingList()
         list_financial_history.addOnScrollListener(SpendingItemScrollListener(this))
+        list_financial_history.setHasFixedSize(true)
+        list_financial_history.setItemViewCacheSize(20)
+        list_financial_history.isDrawingCacheEnabled = true
+        list_financial_history.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
     }
 
     override fun onItemClicked(adapterPosition: Int, spendingModel: SpendingModel) {
