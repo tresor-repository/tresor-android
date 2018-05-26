@@ -21,7 +21,7 @@ class SpendingItemScrollListener(val listener: SpendingListAdapter.SpendingItemL
         if (lastVisibleItemPosition == totalItem - 1
                 && totalData >= UniversalConstant.ItemsPerPage
                 && totalData % UniversalConstant.ItemsPerPage == 0) {
-            //listener.loadMoreItem(totalItem)
+            listener.loadMoreItem(totalItem)
         }
 
     }
