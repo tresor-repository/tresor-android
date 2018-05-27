@@ -82,8 +82,10 @@ class TodaySpendingFragment :
 
     override fun renderSpending(spendingModelDatas: SpendingListDatas) {
         list_financial_history.adapter = SpendingListAdapter(spendingModelDatas, this)
-        val itemTouchHelper = ItemTouchHelper(PaymentItemSwipeDeleteListener(activity,
-                list_financial_history.adapter as SpendingListAdapter))
+        val itemTouchHelper = ItemTouchHelper(
+                PaymentItemSwipeDeleteListener(activity,
+                list_financial_history.adapter as SpendingListAdapter)
+        )
         itemTouchHelper.attachToRecyclerView(list_financial_history)
     }
 
@@ -170,7 +172,6 @@ class TodaySpendingFragment :
         list_financial_history.adapter = SpendingListAdapter(
                 SpendingListDatas(newSpendingList, newData.amountUnformatted, 1), this
         )
-
     }
 
     private fun onDataEdited(alteredData: SpendingModelWrapper) {

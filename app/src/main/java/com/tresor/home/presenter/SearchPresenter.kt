@@ -1,6 +1,7 @@
 package com.tresor.home.presenter
 
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
+import com.tresor.common.constant.UniversalConstant
 import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
@@ -50,14 +51,16 @@ class SearchPresenter(val view: SearchInterface) : SearchPresenterInterface {
 
     override fun addNewSpending(spendingModel: SpendingModel) {
         //TODO Add spending API
-        updateList(generateSpendingDatas())
+        view.addSpending(spendingModel)
     }
 
     override fun editNewSpending(position: Int, spendingModel: SpendingModel) {
         //TODO Edit Spending API
-        val spendingList = generateSpendingModelList()
-        spendingList[position] = spendingModel
-        updateList(generateSpendingDatas())
+        view.editSpending(position, spendingModel)
+    }
+
+    override fun deleteSpending(adapterIndex: Int, spendingModel: SpendingModel) {
+        view.deleteSpending(adapterIndex, spendingModel)
     }
 
     private fun updateList(spendingListDatas: SpendingListDatas) {
@@ -70,15 +73,23 @@ class SearchPresenter(val view: SearchInterface) : SearchPresenterInterface {
         }
     }
 
+    override fun loadMorePage(shownItemSize: Int, currentDataSize: Int) {
+        val nextPage = shownItemSize / UniversalConstant.ItemsPerPage + 1
+        when (shownItemSize < currentDataSize) {
+        //TODO call this method after success
+            true -> view.addDataFromNextPage(generateSpendingModelList())
+        }
+    }
+
     private fun generateSpendingDatas(): SpendingListDatas {
         return SpendingListDatas(generateSpendingModelList(),
-                500000.0,
+                2500000.0,
                 50)
     }
 
     private fun generateSpendingModelList(): MutableList<SpendingModel> {
         val list = ArrayList<SpendingModel>()
-        for (i in 0..7) {
+        for (i in 0..9) {
             val hashTagList = ArrayList<String>()
             hashTagList.add("#Makan")
             hashTagList.add("#Siang")
