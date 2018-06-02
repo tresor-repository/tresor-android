@@ -7,14 +7,14 @@ import com.tresor.common.model.viewmodel.SpendingModel
 /**
  * Created by kris on 5/3/18. Tokopedia
  */
-data class SpendingModelWrapper(val position: Int, val spendingModel: SpendingModel) : Parcelable {
+data class SpendingModelWrapper(val adapterPosition: Int,
+                                val spendingModel: SpendingModel) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
-            parcel.readParcelable(SpendingModel::class.java.classLoader)) {
-    }
+            parcel.readParcelable(SpendingModel::class.java.classLoader))
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(position)
+        parcel.writeInt(adapterPosition)
         parcel.writeParcelable(spendingModel, flags)
     }
 

@@ -10,12 +10,10 @@ import com.tresor.home.viewholder.IconAdapterViewHolder
 /**
  * Created by kris on 5/6/18. Tokopedia
  */
-class IconAdapterKotlin(private val iconModelList: MutableList<IconModel>)
+class IconAdapterKotlin(private val iconModelList: MutableList<IconModel>,
+                        private val listener: IconAdapterViewHolder.IconViewHolderListener)
 
-    : RecyclerView.Adapter<IconAdapterViewHolder>(), IconAdapterViewHolder.iconViewHolderListener {
-    override fun iconClicked() {
-        notifyDataSetChanged()
-    }
+    : RecyclerView.Adapter<IconAdapterViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconAdapterViewHolder {
         val holderView = LayoutInflater.from(parent.context).inflate(R.layout.icon_list_layout, parent, false)
@@ -23,7 +21,7 @@ class IconAdapterKotlin(private val iconModelList: MutableList<IconModel>)
     }
 
     override fun onBindViewHolder(holder: IconAdapterViewHolder, position: Int) {
-        holder.bind(iconModelList[position].iconImageId, position, this)
+        holder.bind(iconModelList[position].iconImageId, position, listener)
     }
 
     override fun getItemCount(): Int {

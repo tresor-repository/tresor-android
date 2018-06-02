@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Spending"
-        android:textSize="@dimen/text_big"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
+        android:layout_marginLeft="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginLeft="@dimen/margin_small"/>
+        android:text="Add Spending"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/text_big"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,8 +24,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_subtitle"
-            android:text="Amount"/>
+            android:text="Amount"
+            android:textSize="@dimen/text_subtitle" />
 
         <LinearLayout
             android:id="@+id/amount_layout"
@@ -35,24 +37,24 @@
                 android:id="@+id/currency"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="@dimen/text_title"
                 android:gravity="center_vertical"
+                android:text="Rp"
                 android:textColor="@android:color/black"
-                android:text="Rp"/>
+                android:textSize="@dimen/text_title" />
 
 
             <faranjit.currency.edittext.CurrencyEditText
                 android:id="@+id/edit_text_insert_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginLeft="@dimen/margin_vs"
+                android:layout_marginRight="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_vs"
                 android:hint="0"
                 android:inputType="numberDecimal"
-                android:textColor="@android:color/black"
                 android:maxLines="1"
-                android:layout_marginLeft="@dimen/margin_vs"
-                android:layout_marginStart="@dimen/margin_vs"
-                android:layout_marginRight="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_small"/>
+                android:textColor="@android:color/black" />
 
             <!--<EditText
                 android:id="@+id/edit_text_insert_amount"
@@ -70,23 +72,45 @@
             android:id="@+id/edit_info_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/margin_small">
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_subtitle"
-                android:text="Description"/>
+                android:text="Description"
+                android:textSize="@dimen/text_subtitle" />
 
             <EditText
                 android:id="@+id/edit_text_insert_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Add unique #(hashtag) to easily track spending"
+                android:inputType="textMultiLine"
+                android:textColor="@android:color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category"
+                android:textSize="@dimen/text_subtitle" />
+
+            <TextView
+                android:id="@+id/selected_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_vs"
+                android:layout_marginStart="@dimen/margin_vs"
                 android:textColor="@android:color/black"
-                android:maxLines="1"
-                android:inputType="text"
-                android:hint="Add unique #(hashtag) to easily track spending" />
+                tools:text="Food" />
 
         </LinearLayout>
 
@@ -99,20 +123,20 @@
             android:id="@+id/step_by_step_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:layout_gravity="bottom"
-            android:gravity="bottom">
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/next_button"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textColor="@android:color/white"
                 android:background="@drawable/rounded_darkened_background"
-                android:textStyle="bold"
-                android:textSize="16dp"
                 android:gravity="center"
-                android:text="Save"/>
+                android:text="Save"
+                android:textColor="@android:color/white"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

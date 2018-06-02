@@ -14,12 +14,13 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways">
 
-            <LinearLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/padding_small"
                 android:layout_marginRight="@dimen/padding_small"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_small">
 
                 <com.tresor.common.widget.implementable.FilterAutoCompleteTextView
                     android:id="@+id/auto_complete_search_filter"
@@ -31,77 +32,89 @@
                     android:hint="Tag to Search" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/filter_recycler_view"
+                    android:id="@+id/filter_recycler_view_search"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/auto_complete_search_filter" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/start_date_field"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_android_button"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:hint="Start Date"
+                    android:inputType="none"
+                    android:minWidth="120dp"
+                    android:padding="@dimen/padding_vs"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/text_title"
+                    app:layout_constraintEnd_toStartOf="@+id/date_separator"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/filter_recycler_view_search" />
 
-                    <EditText
-                        android:id="@+id/start_date_field"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_android_button"
-                        android:focusable="false"
-                        android:gravity="center"
-                        android:hint="Start Date"
-                        android:inputType="none"
-                        android:minWidth="120dp"
-                        android:padding="@dimen/padding_vs"
-                        android:textIsSelectable="true"
-                        android:textSize="@dimen/text_title" />
+                <ImageView
+                    android:id="@+id/date_separator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/margin_vs"
+                    android:layout_marginStart="@dimen/margin_vs"
+                    android:src="@drawable/ic_arrow_forward_24dp"
+                    app:layout_constraintBottom_toBottomOf="@id/start_date_field"
+                    app:layout_constraintEnd_toStartOf="@+id/end_date_field"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toEndOf="@+id/start_date_field"
+                    app:layout_constraintTop_toTopOf="@id/start_date_field" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="@dimen/margin_vs"
-                        android:layout_marginLeft="@dimen/margin_vs"
-                        android:layout_marginRight="@dimen/margin_vs"
-                        android:layout_marginStart="@dimen/margin_vs"
-                        android:src="@drawable/ic_arrow_forward_24dp" />
-
-                    <EditText
-                        android:id="@+id/end_date_field"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@drawable/rounded_android_button"
-                        android:focusable="false"
-                        android:gravity="center"
-                        android:hint="End Date"
-                        android:inputType="none"
-                        android:minWidth="120dp"
-                        android:padding="@dimen/padding_vs"
-                        android:textIsSelectable="true"
-                        android:textSize="@dimen/text_title" />
-
-                </LinearLayout>
+                <EditText
+                    android:id="@+id/end_date_field"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_android_button"
+                    android:focusable="false"
+                    android:gravity="center"
+                    android:hint="End Date"
+                    android:inputType="none"
+                    android:minWidth="120dp"
+                    android:padding="@dimen/padding_vs"
+                    android:textIsSelectable="true"
+                    android:textSize="@dimen/text_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintHorizontal_chainStyle="spread"
+                    app:layout_constraintStart_toEndOf="@+id/date_separator"
+                    app:layout_constraintTop_toTopOf="@id/start_date_field" />
 
                 <LinearLayout
                     android:id="@+id/search_button"
-                    android:layout_width="160dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
                     android:background="@drawable/rounded_dark"
                     android:gravity="center"
                     android:paddingEnd="@dimen/margin_vs"
                     android:paddingLeft="@dimen/margin_large"
                     android:paddingRight="@dimen/margin_vs"
-                    android:paddingStart="@dimen/margin_large">
+                    android:paddingTop="@dimen/padding_vs"
+                    android:paddingBottom="@dimen/padding_vs"
+                    android:paddingStart="@dimen/margin_large"
+                    app:layout_constraintLeft_toLeftOf="@id/end_date_field"
+                    app:layout_constraintRight_toRightOf="@id/end_date_field"
+                    app:layout_constraintTop_toBottomOf="@id/end_date_field">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/margin_vs"
                         android:layout_marginEnd="@dimen/margin_vs"
                         android:layout_marginRight="@dimen/margin_vs"
-                        android:layout_marginTop="@dimen/margin_vs"
                         android:text="Search"
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/text_title" />
@@ -109,11 +122,11 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_autorenew_24dp"/>
+                        android:src="@drawable/ic_autorenew_24dp" />
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.Toolbar>
 

@@ -8,91 +8,75 @@
     android:layout_margin="@dimen/margin_vs"
     app:cardCornerRadius="4dp">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_vs"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/spending_icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="@dimen/margin_vs"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_burger_icon_big" />
 
-            <ImageView
-                android:id="@+id/spending_icon"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="@dimen/margin_vs"
-                tools:src="@drawable/ic_burger_icon_big" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:layout_weight="3"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/history_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Rp 50.000"
-                    android:textSize="@dimen/text_title"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/history_hastag"
-                    style="@style/HashTag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="#Makan #Siang #Liburan" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:layout_marginRight="@dimen/margin_small"
-                android:layout_weight="1"
-                android:gravity="end">
-
-                <ImageView
-                    android:id="@+id/option_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_delete_black_24dp" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/history_amount"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/margin_small"
-            android:layout_marginLeft="@dimen/margin_small"
-            android:layout_marginStart="@dimen/margin_small"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_vs"
+            android:layout_marginStart="@dimen/margin_vs"
+            android:textSize="@dimen/text_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/spending_icon"
+            app:layout_constraintStart_toEndOf="@id/spending_icon"
+            app:layout_constraintTop_toTopOf="@id/spending_icon"
+            app:layout_constraintVertical_bias="0.1"
+            tools:text="Rp 50.000" />
 
-            <TextView
-                android:id="@+id/history_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="Martabak Telor Mang Udin the Conqueror 3 Paket" />
+        <TextView
+            android:id="@+id/history_hastag"
+            style="@style/HashTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/spending_icon"
+            app:layout_constraintStart_toStartOf="@id/history_amount"
+            app:layout_constraintTop_toBottomOf="@id/history_amount"
+            tools:text="#Makan#Siang#Liburan" />
 
-            <TextView
-                android:id="@+id/history_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="08.32 WIB April 7th 2017"
-                android:textColor="@android:color/darker_gray" />
+        <ImageView
+            android:id="@+id/option_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:src="@drawable/ic_trash"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/history_amount" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/history_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="2"
+            app:layout_constraintStart_toStartOf="@id/spending_icon"
+            android:layout_marginTop="@dimen/margin_vs"
+            app:layout_constraintTop_toBottomOf="@id/spending_icon"
+            tools:text="Martabak Telor Mang Udin the Conqueror 3 Paket" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/history_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@id/spending_icon"
+            app:layout_constraintTop_toBottomOf="@id/history_info"
+            tools:text="08.32 WIB April 7th 2017" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

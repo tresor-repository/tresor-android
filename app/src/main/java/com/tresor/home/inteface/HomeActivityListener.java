@@ -10,6 +10,8 @@ public interface HomeActivityListener {
 
     int EDIT_PAYMENT_REQUEST_CODE = 2;
 
+    int ADD_INITIAL_PAYMENT_CODE = 3;
+
     String EXTRA_ADD_DATA_RESULT = "EXTRA_FINANCIAL_MODEL";
 
 }

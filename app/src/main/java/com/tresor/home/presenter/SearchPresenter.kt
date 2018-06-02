@@ -1,6 +1,8 @@
 package com.tresor.home.presenter
 
 import com.tresor.common.adapter.AutoCompleteSuggestionAdapter
+import com.tresor.common.constant.UniversalConstant
+import com.tresor.common.model.viewmodel.SpendingListDatas
 import com.tresor.common.model.viewmodel.SpendingModel
 import com.tresor.common.widget.template.SmartAutoCompleteTextView
 import com.tresor.home.fragment.SearchInterface
@@ -13,13 +15,12 @@ class SearchPresenter(val view: SearchInterface) : SearchPresenterInterface {
 
     override fun fetchSearchData(startDate: String, endDate: String, hashTagList: List<String>) {
         //TODO fetch search data here
-        val spendingList = generateSpendingModelList()
-        updateList(spendingList)
+        updateList(generateSpendingDatas())
     }
 
     override fun updateFilter(startDate: String, endDate: String, hashTagList: List<String>) {
         //TODO put update list after api call
-        updateList(generateSpendingModelList())
+        updateList(generateSpendingDatas())
     }
 
     override fun autoCompletePresenterListener(startDate: String,
@@ -50,30 +51,45 @@ class SearchPresenter(val view: SearchInterface) : SearchPresenterInterface {
 
     override fun addNewSpending(spendingModel: SpendingModel) {
         //TODO Add spending API
-        val spendingList = generateSpendingModelList()
-        spendingList.add(0, spendingModel)
-        updateList(spendingList)
+        view.addSpending(spendingModel)
     }
 
     override fun editNewSpending(position: Int, spendingModel: SpendingModel) {
         //TODO Edit Spending API
-        val spendingList = generateSpendingModelList()
-        spendingList[position] = spendingModel
-        updateList(spendingList)
+        view.editSpending(position, spendingModel)
     }
 
-    private fun updateList(spendingList: MutableList<SpendingModel>) {
+    override fun deleteSpending(adapterIndex: Int, spendingModel: SpendingModel) {
+        view.deleteSpending(adapterIndex, spendingModel)
+    }
+
+    private fun updateList(spendingListDatas: SpendingListDatas) {
+        val spendingList = spendingListDatas.spendingModelList
         when (spendingList.size) {
             0 -> view.onEmptySpending()
             else -> {
-                view.renderSpending(spendingList)
+                view.renderSpending(spendingListDatas)
             }
         }
     }
 
+    override fun loadMorePage(shownItemSize: Int, currentDataSize: Int) {
+        val nextPage = shownItemSize / UniversalConstant.ItemsPerPage + 1
+        when (shownItemSize < currentDataSize) {
+        //TODO call this method after success
+            true -> view.addDataFromNextPage(generateSpendingModelList())
+        }
+    }
+
+    private fun generateSpendingDatas(): SpendingListDatas {
+        return SpendingListDatas(generateSpendingModelList(),
+                2500000.0,
+                50)
+    }
+
     private fun generateSpendingModelList(): MutableList<SpendingModel> {
         val list = ArrayList<SpendingModel>()
-        for (i in 0..7) {
+        for (i in 0..9) {
             val hashTagList = ArrayList<String>()
             hashTagList.add("#Makan")
             hashTagList.add("#Siang")

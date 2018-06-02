@@ -18,8 +18,12 @@ interface SearchPresenterInterface {
                                       hashTagSuggestions: MutableList<String>,
                                       arrayAdapter: AutoCompleteSuggestionAdapter): SmartAutoCompleteTextView.AutoCompleteListener
 
+    fun deleteSpending(adapterIndex: Int, spendingModel: SpendingModel)
+
     fun addNewSpending(spendingModel: SpendingModel)
 
     fun editNewSpending(position: Int, spendingModel: SpendingModel)
+
+    fun loadMorePage(shownItemSize: Int, currentDataSize: Int)
 
 }

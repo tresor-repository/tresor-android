@@ -15,25 +15,37 @@ import com.tresor.home.bottomsheet.IconAdapterKotlin
 import com.tresor.home.inteface.HomeActivityListener
 import com.tresor.home.model.IconModel
 import com.tresor.home.model.SpendingModelWrapper
+import com.tresor.home.viewholder.IconAdapterViewHolder
 import kotlinx.android.synthetic.main.add_new_data_activity.*
 import java.text.DateFormat
+import java.text.NumberFormat
 import java.util.*
 import java.util.regex.Pattern
 
 /**
  * Created by kris on 5/4/18. Tokopedia
  */
-abstract class PaymentTemplateKotlin : TresorPlainActivity() {
+abstract class PaymentTemplateKotlin :
+        PaymentTemplateInterface,
+        TresorPlainActivity(),
+        IconAdapterViewHolder.IconViewHolderListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.add_new_data_activity)
+        val presenter = PaymentTemplatePresenter(this)
+
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE)
         (imm as InputMethodManager).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
         populateView()
-        val generatedIcons = generatedIconList()
-        val iconListAdapter = IconAdapterKotlin(generatedIcons)
+        val generatedIcons = presenter.generateIconList()
+        val iconListAdapter = IconAdapterKotlin(generatedIcons, this)
+
+        //TODO Figure out better method later?
         generatedIcons[imageChosen()].isChosen = true
+        selected_category.text = generatedIcons[imageChosen()].defaultTag
+        //TODO this only how to relate theme with chosen icon
+
         icon_list.apply {
             layoutManager = GridLayoutManager(this@PaymentTemplateKotlin, 4)
             adapter = iconListAdapter
@@ -41,13 +53,12 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         iconListAdapter.notifyDataSetChanged()
         when(getMode()) {
             HomeActivityListener.EDIT_PAYMENT_REQUEST_CODE ->
-                    next_button.setOnClickListener { onFinishButtonClickedListener(
-                            initialModel(),
-                            iconListAdapter
-                    ) }
-            else -> next_button.setOnClickListener { onFinishButtonClickedListener(
-                    initialModel(),
-                    iconListAdapter) }
+                    next_button.setOnClickListener {
+                        presenter.editData(initialModel(), iconListAdapter)
+                    }
+            else -> next_button.setOnClickListener {
+                presenter.addData(initialModel(), iconListAdapter)
+            }
         }
         edit_text_insert_amount.setOnKeyListener {
             _, keyCode, event ->  onFieldAmountKeyListener(keyCode, event)
@@ -55,72 +66,20 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         edit_text_insert_info.setOnKeyListener {
             view, keyCode, event ->  onFieldInfoKeyListener(view, keyCode, event, imm)
         }
-        edit_text_insert_amount.locale = Locale("en_US")
+        //TODO set Locale depends on user setting
+        edit_text_insert_amount.locale = Locale("in_ID")
         edit_text_insert_amount.requestFocus()
     }
 
+    override fun iconClicked(chosenCategory: String) {
+        icon_list.adapter.notifyDataSetChanged()
+        selected_category.text = chosenCategory
+    }
+
     private fun populateView() {
-        edit_text_insert_amount.setText((initialModel().spendingModel.amountUnformatted).toString())
+        val floatedAmountUnformatted = initialModel().spendingModel.amountUnformatted.toFloat()
+        edit_text_insert_amount.setText(String.format("%.2f", floatedAmountUnformatted))
         edit_text_insert_info.setText(initialModel().spendingModel.info)
-    }
-
-    private fun onFinishButtonClickedListener(modelWrapper: SpendingModelWrapper,
-                                              iconAdapter: IconAdapterKotlin) {
-        val intent = Intent()
-        intent.putExtra(HomeActivityListener.EXTRA_ADD_DATA_RESULT, resultModel(
-                modelWrapper,
-                iconAdapter))
-        setResult(Activity.RESULT_OK, intent)
-        finish()
-    }
-
-    private fun resultModel(modelWrapper: SpendingModelWrapper,
-                            iconAdapter: IconAdapterKotlin): SpendingModelWrapper{
-        return SpendingModelWrapper(
-                modelWrapper.position,
-                alteredModel(modelWrapper.spendingModel, iconAdapter))
-    }
-
-    private fun alteredModel(spendingModel: SpendingModel,
-                             iconAdapter: IconAdapterKotlin): SpendingModel {
-        val info = edit_text_insert_info.text.toString()
-        val hashTagList: MutableList<String> = populateHashTagList(
-                info,
-                iconAdapter.getChosenIconDefaultHashTag()
-        )
-        var appendString = ""
-        hashTagList.forEach { hashTag -> appendString += hashTag }
-        val amountUnformatted: Double = edit_text_insert_amount.currencyDouble
-        val price = amountUnformatted.toString()
-        val date = DateFormat.getDateTimeInstance().format(Calendar.getInstance().time)
-        return SpendingModel(spendingModel.id,
-                price,
-                amountUnformatted,
-                spendingModel.userComma,
-                spendingModel.currencyId,
-                appendString,
-                date,
-                iconAdapter.getChosenIcon(),
-                hashTagList,
-                info
-        )
-    }
-
-    private fun populateHashTagList(info: String, defaultIconHashTag: String)
-            : MutableList<String> {
-        val hashTagList = mutableListOf<String>()
-        val patternString = "(\\s|\\A)#(\\w+)"
-        val pattern = Pattern.compile(patternString)
-        val regexMatcher = pattern.matcher(info)
-        while (regexMatcher.find()) {
-            if (regexMatcher.group().isNotEmpty()) {
-                hashTagList.add(regexMatcher.group())
-            }
-        }
-        when(hashTagList.size) {
-            0 -> hashTagList.add(defaultIconHashTag)
-        }
-        return hashTagList
     }
 
     private fun onFieldAmountKeyListener(keyCode: Int, event: KeyEvent): Boolean {
@@ -154,24 +113,31 @@ abstract class PaymentTemplateKotlin : TresorPlainActivity() {
         return false
     }
 
+    override fun getTextInfo(): String {
+        return edit_text_insert_info.text.toString()
+    }
+
+    override fun getAmountUnformattedDouble(): Double {
+        return edit_text_insert_amount.currencyDouble
+    }
+
+    override fun getIconAdapter(): IconAdapterKotlin {
+        return icon_list.adapter as IconAdapterKotlin
+    }
+
+    override fun generateResultModel(newModelWrapper: SpendingModelWrapper) {
+        val intent = Intent()
+        intent.putExtra(HomeActivityListener.EXTRA_ADD_DATA_RESULT, newModelWrapper)
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE)
+        (imm as InputMethodManager).toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+    }
+
     protected abstract fun initialModel(): SpendingModelWrapper
 
     protected abstract fun imageChosen(): Int
 
     protected abstract fun getMode(): Int
-
-    private fun generatedIconList(): MutableList<IconModel> {
-        val iconModelList = mutableListOf<IconModel>()
-        iconModelList.add(IconModel(0, "GeneralSpending", true, false))
-        iconModelList.add(IconModel(1, "Food", true, false))
-        iconModelList.add(IconModel(2, "Clothing", true, false))
-        iconModelList.add(IconModel(3, "Tools", true, false))
-        iconModelList.add(IconModel(4, "Health", true, false))
-        iconModelList.add(IconModel(5, "Grocery", true, false))
-        iconModelList.add(IconModel(6, "Electronics", true, false))
-        iconModelList.add(IconModel(7, "Hygiene", true, false))
-        iconModelList.add(IconModel(8, "Transportation", true, false))
-        return iconModelList
-    }
 
 }
