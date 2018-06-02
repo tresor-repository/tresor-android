@@ -15,7 +15,7 @@ interface SessionApi {
     @Headers("Content-Type: application/json")
     fun login(@Body requestBody: SessionRequestBody): Flowable<LoginResponse>
 
-    @POST("/user")
+    @POST("/users")
     @Headers("Content-Type: application/json")
     fun register(@Body hashMap: HashMap<String, @JvmSuppressWildcards Any>):
             Flowable<Response<RegisterResponse>>

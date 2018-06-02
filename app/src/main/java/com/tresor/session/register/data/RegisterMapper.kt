@@ -16,17 +16,17 @@ class RegisterMapper @Inject constructor() : Function<Response<RegisterResponse>
         return checkIfError(t)
     }
 
-    fun checkIfError(registerResponse: Response<RegisterResponse>): RegisterViewModel {
-        if (registerResponse.isSuccessful) {
-            return RegisterViewModel(true)
+    private fun checkIfError(registerResponse: Response<RegisterResponse>): RegisterViewModel {
+        return if (registerResponse.isSuccessful) {
+            RegisterViewModel(true)
         } else {
             if (registerResponse.body() == null)
-                return RegisterViewModel(false)
+                RegisterViewModel(false)
             else {
                 val body = registerResponse.body()
                 val field: String = body!!.data.field
                 val message: String = body.data.message
-                return RegisterViewModel(false, RegisterViewModel.Fields(field, message))
+                RegisterViewModel(false, RegisterViewModel.Fields(field, message))
             }
         }
     }
